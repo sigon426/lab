@@ -10,6 +10,7 @@
         height: 100%;
         padding: 0;
         margin: 0;
+        background-color: black;
 
       }
       div.tooltip {
@@ -56,7 +57,7 @@
   <body>
     <div id="map"></div>
     <div id ="text" style="position: absolute; width: 20%;top: 20%;left: 2%; color:#F8EFEF"><h2>Median personal income and University Tuition Fees </h2><p>University tuition consumes more than 14 percent of the median personal income in 'Castile and León' and Catalonia. The study assumes that each academic year corresponds to 60 ECTS credits.</p>
-      <p>Data: <a href="http://www.mecd.gob.es/dms/mecd/educacion-mecd/areas-educacion/universidades/estadisticas-informes/datos-cifras/DATOS_CIFRAS_13_14.pdf">Spain Ministry of Education (MECD)</a> and <a href="http://www.ine.es/prensa/np811.pdf"> Spanish National Statistics Institute(INE).</a></p>
+      <p>Data: <a href="http://www.mecd.gob.es/dms/mecd/educacion-mecd/areas-educacion/universidades/estadisticas-informes/datos-cifras/DATOS_CIFRAS_13_14.pdf">Spain Ministry of Education (MECD)</a>, <a href="http://www.ine.es/prensa/np811.pdf"> Spanish National Statistics Institute(INE).</a></p>
     </div>
     <div class="tooltip"></div>
     <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.8.0/jquery.min.js"></script>
@@ -66,14 +67,11 @@
       function main() {
         var map = L.map('map').setView([39, -2], 6);
 /*
-        L.tileLayer('http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-          attribution: ' &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors.',
-          maxZoom: 18
-        }).addTo(map);*/
+ 
 
         L.tileLayer('http://tile.stamen.com/toner/{z}/{x}/{y}.png', {
           attribution: 'Stamen'
-        }).addTo(map);
+        }).addTo(map);*/
         
 
         var polygons = {};
