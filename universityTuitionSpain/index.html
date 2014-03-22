@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>University Tuition and Median Income (Spain 2012) </title>
+    <meta name="viewport" content="initial-scale=1.0, user-scalable=no" />
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8"/>
+    <link rel="shortcut icon" href="robot60.png" />
+    <style>
+      html, body, #map {
+        height: 100%;
+        padding: 0;
+        margin: 0;
+
+      }
+      div.tooltip {
+        position:absolute;
+        display:none;
+        top:100px;
+        left:100px;
+        width:auto;
+        height:auto;
+        padding:9px;
+        z-index:100;
+        background:white;
+        border-radius:4px;
+        -webkit-border-radius:4px;
+        -moz-border-radius:4px;
+        boder:1px solid #DCDCDC;
+        box-shadow:0 0 2px 2px rgba(0,0,0,0.2);
+      }
+
+      div.tooltip h3 {
+        position:relative;
+        padding:0 0 3px;
+        margin:0;
+        font:bold 13px "Helvetica Neue","Helvetica",Arial;
+        color:#333333;
+        text-align: center;
+
+      }  
+      div.tooltip h2 {
+        text-align: center;
+        font:bold;
+      }    
+      div.tooltip p {
+        text-align: center;
+      }
+ 
+    </style>
+
+    <link rel="stylesheet" href="http://libs.cartocdn.com/cartodb.js/v3/themes/css/cartodb.css" />
+    <!--[if lte IE 8]>
+        <link rel="stylesheet" href="http://libs.cartocdn.com/cartodb.js/v3/themes/css/cartodb.ie.css" />
+    <![endif]-->
+  </head>
+  <body>
+    <div id="map"></div>
+    <div id ="text" style="position: absolute; width: 20%;top: 20%;left: 2%; color:#F8EFEF"><h2>Median personal income and University Tuition Fees </h2><p>University tuition consumes more than 14 percent of the median personal income in 'Castile and León' and Catalonia. The study assumes that each academic year corresponds to 60 ECTS credits.</p>
+      <p>Data: <a href="http://www.mecd.gob.es/dms/mecd/educacion-mecd/areas-educacion/universidades/estadisticas-informes/datos-cifras/DATOS_CIFRAS_13_14.pdf">Spain Ministry of Education (MECD)</a> and <a href="http://www.ine.es/prensa/np811.pdf"> Spanish National Statistics Institute(INE).</a></p>
+    </div>
+    <div class="tooltip"></div>
+    <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.8.0/jquery.min.js"></script>
+    <script src="http://libs.cartocdn.com/cartodb.js/v3/cartodb.js"></script>
+
+    <script>
+      function main() {
+        var map = L.map('map').setView([39, -2], 6);
+/*
+        L.tileLayer('http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+          attribution: ' &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors.',
+          maxZoom: 18
+        }).addTo(map);*/
+
+        L.tileLayer('http://tile.stamen.com/toner/{z}/{x}/{y}.png', {
+          attribution: 'Stamen'
+        }).addTo(map);
+        
+
+        var polygons = {};
+        var $tooltip = $("div.tooltip");
+
+        function geometryHover(username, map, layer, options) {
+
+          options = options || {}
+          var HIGHLIGHT_STYLE = {
+            weight: 3,
+            color: '#FFFFFF',
+            opacity: 1,
+            fillColor: '#FFFFFF',
+            fillOpacity: 0.3
+          };
+          style = options.style || HIGHLIGHT_STYLE;
+          var polygonsHighlighted = [];
+
+          // fetch the geometry
+          var sql = new cartodb.SQL({ user: username, format: 'geojson' });
+          sql.execute("select cartodb_id, ST_Simplify(the_geom, 0.01) as the_geom from (" + layer.getSQL() + ") as _wrap").done(function(geojson) {
+            var features = geojson.features;
+            for(var i = 0; i < features.length; ++i) {
+              var f = geojson.features[i];
+              var key = f.properties.cartodb_id
+
+              // generate geometry
+              var geo = L.GeoJSON.geometryToLayer(features[i].geometry);
+              geo.setStyle(style);
+
+              // add to polygons
+              polygons[key] = polygons[key] ||  [];
+              polygons[key].push(geo);
+            }
+          });
+
+
+          function featureOver(e, pos, latlng, data) {
+            featureOut();
+            //console.log(data.porcentaje_ingresos)
+
+            Number.prototype.round = function(places) {
+              return +(Math.round(this + "e+" + places)  + "e-" + places);
+            }
+            var n = +data.porcentaje_ingresos; 
+            $tooltip.html('<h3>Percent of Median Income</br></h3><h2>'+n.round(2)+'%</h2></h3><p>Median Income 2012:</br>'+data.ecv2012_euros+'€<p>University Tuition 12/13:</br> '+data.precio_curso_2012+'€ ('+data.credito_12_13_euros+'€/credit)</p>')
+            
+            var point = map.mouseEventToContainerPoint(e);
+            $tooltip
+              // Positionate
+              .css({left: (point.x + 5) + "px", top: (point.y - $tooltip.outerHeight() - 5) +  "px"})
+              .show();
+
+            var pol = polygons[data.cartodb_id] || [];
+            for(var i = 0; i < pol.length; ++i) {
+              map.addLayer(pol[i]);
+              polygonsHighlighted.push(pol[i]);
+            }
+          }
+
+          function featureOut() {
+            var pol = polygonsHighlighted;
+            for(var i = 0; i < pol.length; ++i) {
+              map.removeLayer(pol[i]);
+            }
+            polygonsHighlighted = [];
+            $tooltip.hide()
+          }
+
+          layer.on('featureOver', featureOver);
+          layer.on('featureOut', featureOut);
+          layer.setInteraction(true);
+
+        }
+
+
+        // create a layer with 1 sublayer
+        cartodb.createLayer(map, {
+          user_name: 'sigon',
+          type: 'cartodb',
+          sublayers: [{
+            sql: "SELECT * FROM ccaa_ingresos_unives_2012",
+            cartocss: '#ccaa_ingresos_unives_2012{  polygon-opacity: 0.8;  line-color: #FFF;  line-width: 1;  line-opacity: 1;}#ccaa_ingresos_unives_2012 [ porcentaje_ingresos <= 19.75] {   polygon-fill: #081B47;}#ccaa_ingresos_unives_2012 [ porcentaje_ingresos <= 14] {   polygon-fill: #3E7BB6;}#ccaa_ingresos_unives_2012 [ porcentaje_ingresos <= 9.73479825724569] {   polygon-fill: #b9d6e8;}'
+          }]
+        })
+        .addTo(map) // add the layer to our map which already contains 1 sublayer
+        .on('done', function(layer) {
+          var sublayer = layer.getSubLayer(0)
+          sublayer.setInteraction(true)
+          sublayer.set({ 'interactivity': ['porcentaje_ingresos', 'cartodb_id', 'ecv2012_euros', 'nom_ccaa','precio_curso_2012','credito_12_13_euros'] })
+          geometryHover('sigon', map, sublayer);
+
+        }).on('error', function() {
+          cartodb.log.log("some error occurred");
+        })
+
+      }
+
+      window.onload = main;
+    </script>
+  </body>
+</html>
