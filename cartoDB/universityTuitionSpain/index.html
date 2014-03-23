@@ -186,14 +186,23 @@
           
           
           if( /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent) ){
-            // some code..
             //sublayer.infowindow.set('template', $('#infowindow_template').html());
-            cdb.vis.Vis.addInfowindow(map, sublayer, ['porcentaje_ingresos','credito_12_13_euros','precio_curso_2012'], {
+            /*cdb.vis.Vis.addInfowindow(map, sublayer, ['porcentaje_ingresos','credito_12_13_euros','precio_curso_2012'], {
               triggerEvent: 'featureClick'
-            });
-            /*sublayer.on('featureClick', function(e, pos, latlng, data) {
-              alert("Hey! You clicked " + data.cartodb_id);
             });*/
+            sublayer.on('featureClick', function(e, pos, latlng, data) {
+              Number.prototype.round = function(places) {
+                return +(Math.round(this + "e+" + places)  + "e-" + places);
+              }
+              var n = +data.porcentaje_ingresos; 
+              $tooltip.html('<h3>% Median Income</br></h3><h2>'+n.round(2)+'%</h2></h3><p>Median Income 2012:</br>'+data.ecv2012_euros+'€<p>University Tuition 12/13:</br> '+data.precio_curso_2012+'€ ('+data.credito_12_13_euros+'€/credit)</p>')
+              
+              var point = map.mouseEventToContainerPoint(e);
+              $tooltip
+                // Positionate
+                .css({left: (point.x + 5) + "px", top: (point.y - $tooltip.outerHeight() - 5) +  "px"})
+                .show();
+              });
           }
           else {
             sublayer.setInteraction(true)
