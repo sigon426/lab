@@ -184,7 +184,7 @@
           if( /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent) ){
               //sublayer.infowindow.set('template', $('#infowindow_template').html());
               sublayer.on('featureClick', function(e, pos, latlng, data) {
-                $('#text').html("<div><p>" + data._median_income +"%</p></div>");
+                $('#text').html("<div><h2>Percent of Median Income</br>"+data.nom_ccaa+"</h2><p>" + data._median_income +"%</p></div>");
               });
 
             /*cdb.vis.Vis.addInfowindow(map, sublayer, ['_median_income','ecv2012_euros','precio_curso_2012'], {
