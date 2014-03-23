@@ -56,7 +56,7 @@
   </head>
   <body>
     <div id="map"></div>
-    <div id ="text" style="position: absolute; width: 20%;top: 20%;left: 2%; color:#F8EFEF"><h2>Median personal income and University Tuition Fees </h2><p>University tuition consumes more than 14 percent of the median personal income in 'Castile and León' and more than 19 in Catalonia. The study assumes that each academic year corresponds to 60 ECTS credits.</p>
+    <div id ="text" style="position: absolute; width: 23%;top: 20%;left: 2%; color:#F8EFEF"><h2>Median personal income and University Tuition Fees </h2><p>University tuition consumes more than 14 percent of the median personal income in 'Castile and León' and more than 19 in Catalonia. The study assumes that each academic year corresponds to 60 ECTS credits.</p>
       <p>Data: <a href="http://www.mecd.gob.es/dms/mecd/educacion-mecd/areas-educacion/universidades/estadisticas-informes/datos-cifras/DATOS_CIFRAS_13_14.pdf">Spain Ministry of Education (MECD)</a>, <a href="http://www.ine.es/prensa/np811.pdf"> Spanish National Statistics Institute(INE).</a></p>
     </div>
     <div class="tooltip"></div>
@@ -181,10 +181,10 @@
           sublayer.setInteraction(true)
           sublayer.set({ 'interactivity': ['_median_income', 'cartodb_id', 'ecv2012_euros', 'nom_ccaa','precio_curso_2012','credito_12_13_euros'] })
           
-          if( /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent) ){
+            if( /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent) ){
               //sublayer.infowindow.set('template', $('#infowindow_template').html());
               sublayer.on('featureClick', function(e, pos, latlng, data) {
-                $('#text').html("<div><p>"+data.nom_ccaa+"</p><h4>Percent of Median Income</br></h4><h2>" + data._median_income +"%</h2></div>");
+                $('#text').html("<div><p>"+data.nom_ccaa+"</p><h4>Percent of Median Income</br></h4><h2>" + data._median_income +"%</h2><p>Median Income: "+data.ecv2012_euros+"€</p><p>1 Year Univ: "+data.precio_curso_2012+"€</p></div>");
               });
 
             /*cdb.vis.Vis.addInfowindow(map, sublayer, ['_median_income','ecv2012_euros','precio_curso_2012'], {
