@@ -177,7 +177,8 @@
         .addTo(map) // add the layer to our map which already contains 1 sublayer
         .on('done', function(layer) {
           var sublayer = layer.getSubLayer(0)
-          
+          sublayer.setInteraction(true)
+          sublayer.set({ 'interactivity': ['_median_income', 'cartodb_id', 'ecv2012_euros', 'nom_ccaa','precio_curso_2012','credito_12_13_euros'] })
           
           if( /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent) ){
               alert('movil');
@@ -190,8 +191,7 @@
             });*/
           }
           else {
-            sublayer.setInteraction(true)
-            sublayer.set({ 'interactivity': ['porcentaje_ingresos', 'cartodb_id', 'ecv2012_euros', 'nom_ccaa','precio_curso_2012','credito_12_13_euros'] })
+            
             geometryHover('sigon', map, sublayer);
           }
           
