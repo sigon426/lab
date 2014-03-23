@@ -188,7 +188,8 @@
           
           if( /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent) ){
             // some code..
-            cdb.vis.Vis.addInfowindow(map, sublayer, ['porcentaje_ingresos','credito_12_13_euros'], {
+            sublayer.infowindow.set('template', $('#infowindow_template').html());
+            cdb.vis.Vis.addInfowindow(map, sublayer, ['porcentaje_ingresos','credito_12_13_euros','precio_curso_2012'], {
               triggerEvent: 'featureClick'
             });
             /*sublayer.on('featureClick', function(e, pos, latlng, data) {
