@@ -189,7 +189,7 @@
           if( /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent) ){
             // some code..
             cdb.vis.Vis.addInfowindow(map, sublayer, ['porcentaje_ingresos','credito_12_13_euros'], {
-              triggerEvent: 'featureOver'
+              triggerEvent: 'featureClick'
             });
             /*sublayer.on('featureClick', function(e, pos, latlng, data) {
               alert("Hey! You clicked " + data.cartodb_id);
