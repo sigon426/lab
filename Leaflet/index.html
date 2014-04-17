@@ -1,6 +1,6 @@
 <html>
 <head>
-  <title>Google basemap // Leaflet</title>
+  <title>Layer Control // Leaflet</title>
   <link rel="stylesheet" href="http://cdn.leafletjs.com/leaflet-0.7/leaflet.css" />
   <script src="http://cdn.leafletjs.com/leaflet-0.7/leaflet.js"></script>
   <script src="http://maps.google.com/maps/api/js?v=3&sensor=false"></script>
@@ -21,8 +21,11 @@
       subdomains: '1234',
       maxZoom:11
     });
+
+    var mso = new L.TileLayer('http://129.206.74.245:8003/tms_h.ashx?x={x}&y={y}&z={z}');
+
     map.addLayer(osm);
-    map.addControl(new L.Control.Layers( {'OSM':osm, 'Google':ggl, 'Google Terrain':ggl2, 'MapQuest':MapQuest}, {}));
+    map.addControl(new L.Control.Layers( {'OSM':osm, 'Google':ggl, 'Google Terrain':ggl2, 'MapQuest':MapQuest, 'Mapsurfer':mso}, {}));
  </script>
 </body>
 </html>
