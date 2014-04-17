@@ -186,7 +186,7 @@
               sublayer.on('featureClick', function(e, pos, latlng, data) {
                 $('#text').html("<div><p>"+data.nom_ccaa+"</p><h4>Percent of Median Income</br></h4><h2>" + data._median_income +"%</h2><p>Median Income: "+data.ecv2012_euros+"€</p><p>1 Year Univ: "+data.precio_curso_2012+"€</p></div>");
               });
-              map.setZoom(4)
+              map.setZoom(5)
 
             /*cdb.vis.Vis.addInfowindow(map, sublayer, ['_median_income','ecv2012_euros','precio_curso_2012'], {
               triggerEvent: 'featureClick'
