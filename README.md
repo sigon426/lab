@@ -1,13 +1,18 @@
 lab
 ===
 
-* simple leaflet map with baselayer control:
+* CartoDB map with hover infowindows:
 
 http://mappingco.github.io/lab/cartoDB/universityTuitionSpain/
-* http://mappingco.github.io/lab/Leaflet/
+
+* leaflet map with multiple layer control:
+
+http://mappingco.github.io/lab/Leaflet/
+
 * simple leaflet map:
+
 http://mappingco.github.io/lab/Leaflet/simple_map.html
 
-* OSMbuildings (3D) with interactive shadow projection:
+* 3D OSMbuildings with interactive shadow projection:
 
 http://mappingco.github.io/lab/Leaflet/osmb/bcn_shadows.html
