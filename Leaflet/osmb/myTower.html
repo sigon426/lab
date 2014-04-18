@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>MyTower</title> 
+  <script src="myTower.js"></script>  
+	<script src="http://cdn.leafletjs.com/leaflet-0.4.5/leaflet.js"></script>
+	<link rel="stylesheet" href="http://cdn.leafletjs.com/leaflet-0.4.5/leaflet.css"/>
+	<!--[if lte IE 8]>
+    	<	link rel="stylesheet" href="http://cdn.leafletjs.com/leaflet-0.4.5/leaflet.ie.css" />
+	<![endif]-->
+	<script src="OSMBuildings-Leaflet.js"></script>
+
+	<style>
+	body {
+		padding: 0;
+		margin: 0;
+	}
+	html, body, #map {
+		height: 100%;
+	}
+	
+   </style>
+</head>
+
+	<body>
+
+
+	 <div id="map"></div>
+    <script>
+      var map = new L.Map('map').setView([41.38886738109273, 2.1858716011047363], 18);
+
+      new L.TileLayer('http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+          attribution: '&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors',
+          maxZoom: 22}
+      ).addTo(map);
+
+
+      for (i = 0, gridLength = myTower.features.length; i < gridLength; i++) {
+          myTower.features[i].properties.wallColor = '#0033CC';
+          myTower.features[i].properties.roofColor = 'rgb(150,180,210)';
+          myTower.features[i].properties.height = myTower.features[i].properties.height * 20
+      }
+
+      var osmb= new OSMBuildings(map).setData(myTower);
+      
+      osmb.setDate(new Date(2014, 04, 15, 8, 30))
+
+      L.control.layers({}, { Buildings:osmb}).addTo(map);
+
+
+    </script>
+  </body>
+</html>
