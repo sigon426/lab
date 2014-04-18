@@ -266,6 +266,10 @@
 			};
 			function resetHighlight(e) {
 			    poligons2D.resetStyle(e.target);
+			    setInterval(function(){
+					map.closePopup() 
+				},3000);
+
 			}
 
 			
