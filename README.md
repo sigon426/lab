@@ -16,3 +16,7 @@ http://mappingco.github.io/lab/Leaflet/simple_map.html
 * 3D OSMbuildings with interactive shadow projection:
 
 http://mappingco.github.io/lab/Leaflet/osmb/bcn_shadows.html
+
+* Build my own big tower in the center of Barcelona
+
+http://mappingco.github.io/lab/Leaflet/osmb/myTower.html
