@@ -39,6 +39,7 @@
           myTower.features[i].properties.wallColor = '#0033CC';
           myTower.features[i].properties.roofColor = 'rgb(150,180,210)';
           myTower.features[i].properties.height = myTower.features[i].properties.height * 20
+          myTower.features[i].properties.minHeight = myTower.features[i].properties.minHeight * 20;
       }
 
       var osmb= new OSMBuildings(map).setData(myTower);
