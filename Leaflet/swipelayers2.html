@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset=utf-8 />
+    <title>Example</title>
+    <link rel="stylesheet" href="http://cdn.leafletjs.com/leaflet-0.5/leaflet.css" />
+    <script src="http://cdn.leafletjs.com/leaflet-0.5/leaflet.js"></script>
+    <style>
+      body { 
+        margin:0; 
+        padding:0; 
+      }
+      #map {
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+      }
+      #range {
+        width: 100%;
+        margin:0; 
+        padding:0; 
+        height: 30px;
+      }
+      #texto{
+        position: absolute;
+        bottom: 18px;
+        left: 18px;
+        z-index: 1;
+        background-color: rgba(255,255,255,0.7);
+        padding: 5px;
+      }
+      #texto2{
+        position: absolute;
+        bottom: 18px;
+        right: 18px;
+        z-index: 1;
+        background-color: rgba(255, 255, 255, 0.7);
+        padding: 5px;
+      }
+      .leaflet-top {
+        top: 25px;
+      }
+
+    </style>
+  </head>
+  <body>
+    <div id="slider" style="z-index:1000; position:absolute; width: 100%; margin:0; padding:0; ">
+      <input id="range" type="range" min="0" max="1366" step="any" />
+    </div>
+    <h2 id="texto">1956</h2>
+    <h2 id="texto2">Actualidad</h2>
+
+    <div id='map'></div>
+    <script>
+      var center = new L.LatLng(42.3437, -3.6967);
+      
+      var map = new L.Map('map', { 
+        center: center, 
+        zoom: 15, 
+        attributionControl:true, 
+        crs: L.CRS.EPSG4326
+      });
+
+      // wms layers
+      var pnoaCyL = L.tileLayer.wms("http://orto.wms.itacyl.es/WMS? ", {
+        layers: "Ortofoto_CyL",//layer name (see get capabilities)
+        format: 'image/jpeg',
+        transparent: false,
+        version: '1.1.1',//wms version (see get capabilities)
+        attribution: " © Ortofoto Instituto Tecnológico Agrario de Castilla y León"
+      }).addTo(map);
+
+      var Ortofoto_1956 = L.tileLayer.wms("http://orto.wms.itacyl.es/WMS? ", {
+        layers: "Ortofoto_1956",//layer name (see get capabilities)
+        format: 'image/png',
+        transparent: false,
+        version: '1.1.1',//wms version (see get capabilities)
+        attribution: " © Ortofoto Instituto Tecnológico Agrario de Castilla y León"
+      }).addTo(map);
+      
+      var mapSize = map.getSize().x; // getSize() return new L.Point(x,y)
+      var middle= mapSize/2
+    
+      var l_parent = getLayer(map._layers)._container,
+          handle = document.getElementById('range'),
+          dragging = false;
+
+      handle.setAttribute('max', mapSize);middle
+      //handle.setAttribute('style', 'left: '+middle+'px');
+      
+      handle.onmousedown = function() { dragging = true; return false;}
+      document.onmouseup = function() { dragging = false; }
+      document.onmousemove = function(e) {
+          if (!dragging) return;
+          setDivide(e.x);
+          handle.value=parseInt(handle.style.left)
+      }
+
+      map.on( "drag", function( e ) {
+        l_parent = getLayer(map._layers)._container;
+        setDivide(parseInt(handle.style.left));
+      });
+      
+      function setDivide(x) {
+        x = Math.max(0, Math.min(x, map.getSize()['x']));
+        handle.style.left = (x) + 'px';
+        var layerX = map.containerPointToLayerPoint(x,0).x
+        l_parent.style.clip = 'rect(-99999px ' + layerX + 'px 999999px -99999px)';
+      }
+      
+      function getLayer(obj) {
+        var last;
+        for (var i in obj) {
+          if (obj.hasOwnProperty(i) && typeof(i) !== 'function') {
+            last = obj[i];
+          }
+        }
+        return last;
+      }
+      setDivide(middle);
+    </script>
+
+  </body>
+</html
