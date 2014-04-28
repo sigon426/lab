@@ -30,8 +30,12 @@
 
 			var map = new L.Map('map').setView([42.07633450511675, -4.077880382537842], 18);
 			var basemap = new L.TileLayer('http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-		      attribution: '&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'});
-			
+		      attribution: '&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors',
+		      maxZoom: 19
+		  	});
+			map.on('zoomend', function() {
+			    console.log(map.getZoom());
+			});
 			map.addLayer(basemap);
 			
 			// buldings of interest
@@ -196,42 +200,7 @@
 			        fillOpacity: 0.7
 			    };
 			}
-			// infowindows
-			var geojsonFeatures = {
-			  "type": "FeatureCollection",
-			  "features": [
-			    {
-			      "type": "Feature",
-			      "properties": {
-			        "name": "Iglesia de San Juan Bautista"
-			      },
-			      "geometry": {
-			        "type": "Point",
-			        "coordinates": [-4.076045751571655, 42.07595623738609]
-			      }
-			    },
-			    {
-			      "type": "Feature",
-			      "properties": {
-			        "name": "Ayuntamiento"
-			      },
-			      "geometry": {
-			        "type": "Point",
-			        "coordinates": [-4.077684581279755, 42.07606971794201]
-			      }
-			    },
-			    {
-			      "type": "Feature",
-			      "properties": {
-			        "name": "Edificio Usos Multiples"
-			      },
-			      "geometry": {
-			        "type": "Point",
-			        "coordinates": [-4.078955948352814, 42.077019363061154]
-			      }
-			    }
-			  ]
-			}
+	
 
 			poligons2D=L.geoJson(geojson,{
 				style: style,
@@ -243,7 +212,7 @@
 				var latitud =feature.geometry.coordinates[0][1][1]
 				var longitud =feature.geometry.coordinates[0][1][0]
 				var imagenGoogle = "http://maps.googleapis.com/maps/api/streetview?size=200x150&location="+latitud +","+longitud+"&sensor=false";
-				var popupContent = feature.properties.name + "</br><img src="+imagenGoogle+">";
+				var popupContent = feature.properties.name + "</br><img src="+imagenGoogle+" style='height: 150px; width: 200px;'>";
 				layer.bindPopup(popupContent);
 				layer.on({
 				        mouseover: highlightFeature,
