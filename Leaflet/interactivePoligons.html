@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 	<head>
-		<title>3DPeral</title>
+		<title>Peral</title>
 
 		<script type="text/javascript" src="http://code.jquery.com/jquery-1.8.3.min.js"></script>
 		<script src="http://cdn.leafletjs.com/leaflet-0.4.5/leaflet.js"></script>
@@ -8,7 +8,7 @@
 		<!--[if lte IE 8]>
 	    	<	link rel="stylesheet" href="http://cdn.leafletjs.com/leaflet-0.4.5/leaflet.ie.css" />
 		<![endif]-->
-		<script src="../OSMBuildings-Leaflet.js"></script>
+		
 
 		<style>
 		body {
@@ -239,7 +239,11 @@
 			}).addTo(map)
 
 			function onEachFeature(feature, layer) {
-				var popupContent = feature.properties.name;
+	
+				var latitud =feature.geometry.coordinates[0][1][1]
+				var longitud =feature.geometry.coordinates[0][1][0]
+				var imagenGoogle = "http://maps.googleapis.com/maps/api/streetview?size=200x150&location="+latitud +","+longitud+"&sensor=false";
+				var popupContent = feature.properties.name + "</br><img src="+imagenGoogle+">";
 				layer.bindPopup(popupContent);
 				layer.on({
 				        mouseover: highlightFeature,
