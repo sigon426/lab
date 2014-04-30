@@ -1,0 +1,80 @@
+<html>
+<head>
+  <title>WMS Leaflet</title>
+  <meta charset="utf-8"> 
+  <link rel="stylesheet" href="http://cdn.leafletjs.com/leaflet-0.7/leaflet.css" />
+  <script src="http://cdn.leafletjs.com/leaflet-0.7/leaflet.js"></script>
+  <!-- add necesary scripts for google map layer-->
+  <script src="http://maps.google.com/maps/api/js?v=3&sensor=false"></script>
+  <script src="Google.js"></script>
+</head>
+<body>
+  <!-- define a DIV into which the map will appear. Make it take up the whole window -->
+  <div style="width:100%; height:100%" id="map"></div>
+  <script type='text/javascript'>
+    
+
+    var map = new L.Map('map', {
+      center: new L.LatLng(42.076334, -4.077880),
+      zoom: 14,
+      crs: L.CRS.EPSG4326
+    });
+
+    //leaflet default is EPSG:3857 Spherical Mercator. crs option defaults to map CRS
+    //L.CRS.EPSG4326 //define map crs to - WGS84 
+    //L.CRS.EPSG3857 //crs Spherical Mercator
+    
+    // by default the src for the wms its the map crs
+    var pnoa = L.tileLayer.wms("http://www.ign.es/wms-inspire/pnoa-ma", {
+      layers: "OI.OrthoimageCoverage",//layer name (see get capabilities)
+      format: 'image/jpeg',
+      transparent: false,
+      version: '1.3.0',//wms version (see get capabilities)
+      attribution: "PNOA WMS. Cedido por © Instituto Geográfico Nacional de España"
+    })
+    // pna maxima actualidad
+    var pnoaCyL = L.tileLayer.wms("http://orto.wms.itacyl.es/WMS? ", {
+      layers: "Ortofoto_CyL",//layer name (see get capabilities)
+      format: 'image/jpeg',
+      transparent: false,
+      version: '1.1.1',//wms version (see get capabilities)
+      attribution: "PNOA WMS © Instituto Tecnológico Agrario de Castilla y León"
+    });
+    
+    var Ortofoto_2011 = L.tileLayer.wms("http://orto.wms.itacyl.es/WMS? ", {
+      layers: "Ortofoto_2011",//layer name (see get capabilities)
+      format: 'image/jpeg',
+      transparent: false,
+      version: '1.1.1',//wms version (see get capabilities)
+      attribution: "PNOA WMS © Instituto Tecnológico Agrario de Castilla y León"
+    });
+    var Ortofoto_2002 = L.tileLayer.wms("http://orto.wms.itacyl.es/WMS? ", {
+      layers: "Ortofoto_2002",//layer name (see get capabilities)
+      format: 'image/jpeg',
+      transparent: false,
+      version: '1.1.1',//wms version (see get capabilities)
+      attribution: "PNOA WMS © Instituto Tecnológico Agrario de Castilla y León"
+    });
+
+    var Ortofoto_2000 = L.tileLayer.wms("http://orto.wms.itacyl.es/WMS? ", {
+      layers: "Ortofoto_2000",//layer name (see get capabilities)
+      format: 'image/jpeg',
+      transparent: false,
+      version: '1.1.1',//wms version (see get capabilities)
+      attribution: "PNOA WMS © Instituto Tecnológico Agrario de Castilla y León"
+    });
+    var Ortofoto_1956 = L.tileLayer.wms("http://orto.wms.itacyl.es/WMS? ", {
+      layers: "Ortofoto_1956",//layer name (see get capabilities)
+      format: 'image/jpeg',
+      transparent: false,
+      version: '1.1.1',//wms version (see get capabilities)
+      attribution: "PNOA WMS © Instituto Tecnológico Agrario de Castilla y León"
+    })
+
+    map.addLayer(pnoa);
+    map.addControl(new L.Control.Layers( {'pnoa': pnoa, 'actual':pnoaCyL,'2011':Ortofoto_2011, '2002':Ortofoto_2002, '2000': Ortofoto_2000, '1956':Ortofoto_1956}, {}));
+ </script>
+</body>
+</html>
+
+   
