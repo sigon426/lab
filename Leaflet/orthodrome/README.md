@@ -3,7 +3,7 @@
 
 The great-circle or orthodromic distance is the shortest distance between two points on the surface of a sphere, measured along the surface of the sphere (as opposed to a straight line through the sphere's interior).
 
-![great circle](http://mappingco.github.io/lab/orthodrome/Rhumb-line-Great-Circle-mer.jpg)
+![great circle](https://raw.githubusercontent.com/mappingCo/lab/gh-pages/Leaflet/orthodrome/Rhumb-line-Great-Circle-mer.jpg)
 
 Figure: Rhumb line and Great Circle in Mercator projection [more](http://www.free-online-private-pilot-ground-school.com/navigation-basics.html)
 
@@ -27,6 +27,6 @@ Leaflet plugin.
 
 Adding points to the orthodroma in an animation use code from [this mapbox's post](https://www.mapbox.com/mapbox.js/example/v1.0.0/dynamically-drawing-a-line/).
 
-![orthodrome](http://mappingco.github.io/lab/orthodrome/orthodrome.png)Rhumb-line-Great-Circle-mer
+![orthodrome](https://raw.githubusercontent.com/mappingCo/lab/gh-pages/Leaflet/orthodrome/orthodrome.png)
 
  
