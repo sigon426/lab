@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html>
+	<head>
+ 		<title>Orthodroma</title>
+  		<meta charset="utf-8" />
+
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+
+  		<link rel="stylesheet" href="http://cdn.leafletjs.com/leaflet-0.7.1/leaflet.css" />
+  		<style>
+			body {
+			    padding: 0;
+			    margin: 0;
+			}
+			html, body, #map {
+			    height: 100%;
+			}
+		</style>
+	</head>
+	<body>
+  		<div id="map"></div>
+	</body>
+	<script src="http://cdn.leafletjs.com/leaflet-0.7.1/leaflet.js?2"></script>
+	<script src="http://maps.google.com/maps/api/js?v=3.2&amp;sensor=false"></script>
+	<script src="orthodroma.js"></script>
+	<script src="AnimatedMarker.js"></script>
+
+	<script type="text/javascript">
+
+		var InitialCenter = new L.LatLng(41, -72);
+		var map = L.map('map');
+		map.setView(InitialCenter, 3);
+
+		var MapQuest = L.tileLayer('http://oatile{s}.mqcdn.com/tiles/1.0.0/sat/{z}/{x}/{y}.jpg', {
+		  attribution: 'Tiles Courtesy of <a href="http://www.mapquest.com/">MapQuest</a> &mdash; Portions Courtesy NASA/JPL-Caltech and U.S. Depart. of Agriculture, Farm Service Agency',
+		  subdomains: '1234',
+		  maxZoom:11
+		}).addTo(map);;
+	
+
+
+		// add a new line to the map, but one with no points - yet
+		var polyline = L.polyline([],{
+			color:'red'
+		}).addTo(map);
+		// keep a tally of how many points we've added to the map
+		var pointsAdded = 0;
+		var linea1 =orthodroma2.features[0].geometry.coordinates;
+		var pointsTobeAdded= linea1.length
+
+		// start adding new points to the map
+		add();
+	
+
+		function add() {
+	
+			// addLatLng takes a new latLng location and puts it at the end of the line
+			polyline.addLatLng(
+	        	L.latLng(linea1[pointsAdded][1],linea1[pointsAdded][0])
+	        );
+
+		    // pan the map along with where the line is being added.
+		    map.setView([linea1[pointsAdded][1],linea1[pointsAdded][0]], 3);
+				
+			
+			if (++pointsAdded < pointsTobeAdded) window.setTimeout(add, 100);
+		};//end add()
+
+		
+		lines= L.geoJson(orthodroma2,{
+			onEachFeature:onEachFeature
+		});
+
+		var lines, route, coorSalida, coorLlegada;
+
+		var myIcon = L.icon({
+		  iconUrl: 'plane.png',
+		  iconAnchor:  [20, 24], // point of the icon which will correspond to marker's location
+		});
+		
+		function onEachFeature(feature, layer) {
+		
+			var array = feature.geometry.coordinates
+			var myArray =[];
+			var last=array.length-1
+
+			coorSalida = [array[0][1], array[0][0]]
+			coorLlegada = [array[last][1], array[last][0]]
+			console.log('llegada: '+coorLlegada+' salida: '+coorSalida)
+		
+			for (var i = 0; i <= array.length-1; i++) {
+				console.log([array[i][1], array[i][0]]);
+				myArray.push([array[i][1], array[i][0]])
+			};
+			route = L.polyline(myArray);
+			console.log(route)
+			
+		}
+
+		var salida  = L.marker(coorSalida).addTo(map);
+		var llegada = L.marker(coorLlegada).addTo(map);
+
+		var animatedMarker = L.animatedMarker(route.getLatLngs(), {
+			icon: myIcon,
+		  	distance: 9200,  // meters
+		  	interval: 10, // milliseconds
+		});
+
+		map.addLayer(animatedMarker);
+
+	</script>
+  
+
+</html>
