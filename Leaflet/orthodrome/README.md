@@ -1,5 +1,4 @@
-
-## Animated Orhodrome
+## Orthodrome animated flight path
 
 The great-circle or orthodromic distance is the shortest distance between two points on the surface of a sphere, measured along the surface of the sphere (as opposed to a straight line through the sphere's interior).
 
@@ -8,7 +7,7 @@ The great-circle or orthodromic distance is the shortest distance between two po
 Figure: Rhumb line and Great Circle in Mercator projection [more](http://www.free-online-private-pilot-ground-school.com/navigation-basics.html)
 
 
-The orthodroma was created with PostGIS following [this post](http://anitagraser.com/2011/08/20/visualizing-global-connections/) by Anita Graser.
+The orthodrome was created with PostGIS following [this post](http://anitagraser.com/2011/08/20/visualizing-global-connections/) by Anita Graser.
 
 ```sql
 UPDATE geodeticlines
