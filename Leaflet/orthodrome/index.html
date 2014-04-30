@@ -3,9 +3,7 @@
 	<head>
  		<title>Orthodrome animated flight path</title>
   		<meta charset="utf-8" />
-
 		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
-
   		<link rel="stylesheet" href="http://cdn.leafletjs.com/leaflet-0.7.1/leaflet.css" />
   		<style>
 			body {
@@ -21,7 +19,6 @@
   		<div id="map"></div>
 	</body>
 	<script src="http://cdn.leafletjs.com/leaflet-0.7.1/leaflet.js?2"></script>
-	<script src="http://maps.google.com/maps/api/js?v=3.2&amp;sensor=false"></script>
 	<script src="orthodroma.js"></script>
 	<script src="AnimatedMarker.js"></script>
 
@@ -37,8 +34,6 @@
 		  maxZoom:11
 		}).addTo(map);;
 	
-
-
 		// add a new line to the map, but one with no points - yet
 		var polyline = L.polyline([],{
 			color:'red'
@@ -51,7 +46,6 @@
 		// start adding new points to the map
 		add();
 	
-
 		function add() {
 	
 			// addLatLng takes a new latLng location and puts it at the end of the line
@@ -65,7 +59,6 @@
 			
 			if (++pointsAdded < pointsTobeAdded) window.setTimeout(add, 100);
 		};//end add()
-
 		
 		lines= L.geoJson(orthodroma2,{
 			onEachFeature:onEachFeature
