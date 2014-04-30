@@ -24,3 +24,8 @@ http://mappingco.github.io/lab/Leaflet/osmb/myTower.html
 * Interactive Poligons
 
 http://mappingco.github.io/lab/Leaflet/interactivePoligons.html
+
+
+* swipe layers https://github.com/gccgisteam/leaflet-examples/blob/master/leafletSwipe.html
+
+* http://mappingco.github.io/lab/Leaflet/orthodrome/
