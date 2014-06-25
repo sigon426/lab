@@ -43,12 +43,12 @@ var lat, lon, accu, grados, minutos, segundos, gradosDecimales;
   };
 
   function showPosition(position) {
-    texto2.innerHTML = 'Latitud: '+ position.coords.latitude;
+    texto2.innerHTML = 'Latitude: '+ position.coords.latitude;
     lat = position.coords.latitude;
     lon = position.coords.longitude;
     accu= position.coords.accuracy;
 
-    calculateVelocity(toRadians(lat)
+    calculateVelocity(toRadians(lat));
 
   };
   function getNoPosition(position) {
@@ -68,7 +68,7 @@ var lat, lon, accu, grados, minutos, segundos, gradosDecimales;
   function calculateVelocity(gradosDecimales){
     var diaSiderio= 23.93446959;//hours
     var wEcuador=1674.36400;// km/h
-    var velocity= wEcuador * Math.cos(toRadians(gradosDecimales);
+    var velocity= wEcuador * Math.cos(toRadians(gradosDecimales));
     texto.innerHTML = "Velocity: "+ velocity+ "km/h"
   };
   function toRadians (angle) {
