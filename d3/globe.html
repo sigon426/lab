@@ -1,45 +1,114 @@
 <!DOCTYPE html>
 <meta charset="utf-8">
+<head>
+    <title>Get my velocity</title>
+    <style>
+      .info{
+        margin: 0;
+        padding: 0;
+        border: 0;
+        float:right
+      }
+    </style>
+</head>
 <body>
+  <div class="info">
+    <p id="texto">Latitud</p>
+    <form class="parcelaSelector">
+      Grados: <input type="number" id="grados" placeholder="12"/>
+      <br>
+      Minutos: <input type="number" id="minutos" placeholder="11"/>
+      <br>
+      Segundos: <input type="number" id="segundos" placeholder="11"/>
+      <br><br>
+      <input type="button" onclick="latitudeInput()" value="Set latitude">
+      <input type="button" onclick="getLocation()" value="Get latitude">
+    </form>
+  </div>
 <script src="http://d3js.org/d3.v3.min.js"></script>
 <script src="http://d3js.org/topojson.v1.min.js"></script>
+<script src="http://code.jquery.com/jquery-1.10.2.min.js"></script>
 <script>
- 
-var width = 960,
-    height = 500;
- 
-var projection = d3.geo.orthographic()
-    .scale(250)
-    .translate([width / 2, height / 2])
-    .clipAngle(90);
- 
-var path = d3.geo.path()
-    .projection(projection);
- 
-var λ = d3.scale.linear()
-    .domain([0, width])
-    .range([-180, 180]);
- 
-var φ = d3.scale.linear()
-    .domain([0, height])
-    .range([90, -90]);
- 
-var svg = d3.select("body").append("svg")
-    .attr("width", width)
-    .attr("height", height);
- 
-svg.on("mousemove", function() {
-  var p = d3.mouse(this);
-  projection.rotate([λ(p[0]), φ(p[1])]);
-  svg.selectAll("path").attr("d", path);
-});
- 
- //var url=  'http://bl.ocks.org/mbostock/raw/4090846/world-110m.json'
-d3.json("world-110m.json", function(error, world) {
-  svg.append("path")
-      .datum(topojson.feature(world, world.objects.land))
-      .attr("class", "land")
-      .attr("d", path);
-});
+var lat, lon, accu, grados, minutos, segundos, gradosDecimales;
+  function getLocation()  {
+    var options = null;
+    if (navigator.geolocation) {
+      options={enableHighAccuracy: true, maximumAge: 3000, timeout: 30000};
+      navigator.geolocation.getCurrentPosition(showPosition,getNoPosition,options);
+    }
+    else {
+      texto.innerHTML = "Geolocation is not supported by this browser.";
+    }
+  };
+
+  function showPosition(position) {
+    texto.innerHTML = 'Latitud: '+ position.coords.latitude;
+    lat = position.coords.latitude;
+    lon = position.coords.longitude;
+    accu= position.coords.accuracy;
+
+    calculateVelocity(lat)
+
+  };
+  function getNoPosition(position) {
+    //map.setView([41.3905, 2.1914], 15);
+    texto.innerHTML = "Geolocation is not supported"
+  };
+
+  function latitudeInput(){
+    grados = $('#grados').val();
+    minutos = $('#minutos').val();
+    segundos = $('#segundos').val();
+    gradosDecimales= +grados+(+minutos/60)+(+segundos/3600)
+    texto.innerHTML = 'Latitud: '+ gradosDecimales 
+    calculateVelocity(gradosDecimales)
+  };
+
+  function calculateVelocity(gradosDecimales){
+    var diaSiderio= 23.93446959;//hours
+    var wEcuador=1674.36400;// km/h
+    var velocity= wEcuador * Math.cos(gradosDecimales);
+    texto.innerHTML = "Velocity: "+ velocity+ "km/h"
+  };
+
+
+  var width = 960,
+      height = 500;
+   
+  var projection = d3.geo.orthographic()
+      .scale(250)
+      .translate([width / 2, height / 2])
+      .clipAngle(90);
+   
+  var path = d3.geo.path()
+      .projection(projection);
+   
+  var λ = d3.scale.linear()
+      .domain([0, width])
+      .range([-180, 180]);
+   
+  var φ = d3.scale.linear()
+      .domain([0, height])
+      .range([90, -90]);
+   
+  var svg = d3.select("body").append("svg")
+      .attr("width", width)
+      .attr("height", height);
+   
+  svg.on("mousemove", function() {
+    var p = d3.mouse(this);
+    projection.rotate([λ(p[0]), φ(p[1])]);
+    svg.selectAll("path").attr("d", path);
+  });
+   
+   //var url=  'http://bl.ocks.org/mbostock/raw/4090846/world-110m.json'
+  d3.json("world-110m.json", function(error, world) {
+    svg.append("path")
+        .datum(topojson.feature(world, world.objects.land))
+        .attr("class", "land")
+        .attr("d", path);
+  });
  
 </script>
+</body>
+</html>
