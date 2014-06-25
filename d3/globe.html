@@ -14,6 +14,7 @@
 <body>
   <div class="info">
     <p id="texto">Latitud</p>
+    <p id="texto2"></p>
     <form class="parcelaSelector">
       Grados: <input type="number" id="grados" placeholder="12"/>
       <br>
@@ -42,7 +43,7 @@ var lat, lon, accu, grados, minutos, segundos, gradosDecimales;
   };
 
   function showPosition(position) {
-    texto.innerHTML = 'Latitud: '+ position.coords.latitude;
+    texto2.innerHTML = 'Latitud: '+ position.coords.latitude;
     lat = position.coords.latitude;
     lon = position.coords.longitude;
     accu= position.coords.accuracy;
