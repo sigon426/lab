@@ -101,7 +101,7 @@ var lat, lon, accu, grados, minutos, segundos, gradosDecimales;
   d3.timer(function() {  
     var angle = velocity * (Date.now() - then);  
     projection.rotate([angle,0,0]); 
-  } 
+  });
   /*svg.on("mousemove", function() {
     var p = d3.mouse(this);
     projection.rotate([λ(p[0]), φ(p[1])]);
