@@ -23,6 +23,10 @@
         stroke: red;
         stroke-width: 2px;
       }
+      .miLatitud{
+        stroke: green;
+        stroke-width: 3px;     
+      }
     </style>
 </head>
 <body>
@@ -124,6 +128,11 @@ var lat, lon, accu, grados, minutos, segundos, gradosDecimales;
   svg.append("path")
       .datum({type: "LineString", coordinates: [[-180, 0], [-90, 0], [0, 0], [90, 0], [180, 0]]})
       .attr("class", "equator")
+      .attr("d", path);
+
+  svg.append("path")
+      .datum({type: "LineString", coordinates: [[-77.05, 38.91], [116.35, 39.91]]})
+      .attr("class", "miLatitud")
       .attr("d", path);
 
   var feature = svg.selectAll("path");
