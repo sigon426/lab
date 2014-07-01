@@ -27,6 +27,10 @@
         stroke: green;
         stroke-width: 3px;     
       }
+      .miLatitud2{
+        stroke: blue;
+        stroke-width: 3px;     
+      }
     </style>
 </head>
 <body>
@@ -110,6 +114,9 @@ var lat, lon, accu, grados, minutos, segundos, gradosDecimales;
       .projection(projection);
 
   var graticule = d3.geo.graticule();
+  var graticule2 = d3.geo.graticule()
+    .extent([[0, 41], [41 + 1e-6, 0 + 1e-6]])
+    .step([3, 3]);
 
   var svg = d3.select("body").append("svg")
       .attr("width", width)
@@ -129,6 +136,13 @@ var lat, lon, accu, grados, minutos, segundos, gradosDecimales;
       .datum({type: "LineString", coordinates: [[-180, 0], [-90, 0], [0, 0], [90, 0], [180, 0]]})
       .attr("class", "equator")
       .attr("d", path);
+
+  svg.append("path")
+      .datum(graticule2)
+      .attr("class", "miLatitud2")
+      .attr("d", path);
+
+ 
 
   svg.append("path")
       .datum({type: "LineString", coordinates: [[-180, 41], [-170, 41],[-160, 41],[-150, 41], [-140, 41], [-130, 41],[-120, 41], [-110, 41],[-100, 41],[-90, 41], [0, 41], [90, 41], [180, 41]]})
