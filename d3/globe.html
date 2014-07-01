@@ -100,15 +100,16 @@ var lat, lon, accu, grados, minutos, segundos, gradosDecimales;
    
   var velocity = .01,
       then = Date.now();
+  
   d3.timer(function() {  
     var angle = velocity * (Date.now() - then);  
     projection.rotate([angle,0,0]); 
   });
-  /*svg.on("mousemove", function() {
+  svg.on("mousemove", function() {
     var p = d3.mouse(this);
     projection.rotate([λ(p[0]), φ(p[1])]);
     svg.selectAll("path").attr("d", path);
-  });*/
+  });
    
    //var url=  'http://bl.ocks.org/mbostock/raw/4090846/world-110m.json'
   d3.json("world-110m.json", function(error, world) {
