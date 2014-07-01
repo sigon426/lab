@@ -131,7 +131,7 @@ var lat, lon, accu, grados, minutos, segundos, gradosDecimales;
       .attr("d", path);
 
   svg.append("path")
-      .datum({type: "LineString", coordinates: [[-180, 41], [-90, 41], [0, 41], [90, 41], [180, 41]]})
+      .datum({type: "LineString", coordinates: [[-180, -41], [-90, -41], [0, 41], [90, 41], [180, 41]]})
       .attr("class", "miLatitud")
       .attr("d", path);
 
