@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<meta charset="utf-8">
+<head>
+    <title>Get my velocity</title>
+    <style>
+      .info{
+        margin: 0;
+        padding: 0;
+        border: 0;
+        float:right
+      }
+      path {
+        fill: none;
+        stroke-linejoin: round;
+      }
+
+      .sphere,
+      .graticule {
+        stroke: #aaa;
+      }
+
+      .equator {
+        stroke: red;
+        stroke-width: 2px;
+      }
+    </style>
+</head>
+<body>
+  <div class="info">
+    <p id="texto">Latitud</p>
+    <p id="texto2"></p>
+    <form class="parcelaSelector">
+      Grados: <input type="number" id="grados" placeholder="12"/>
+      <br>
+      Minutos: <input type="number" id="minutos" placeholder="11"/>
+      <br>
+      Segundos: <input type="number" id="segundos" placeholder="11"/>
+      <br><br>
+      <input type="button" onclick="latitudeInput()" value="Set latitude">
+      <input type="button" onclick="getLocation()" value="Get latitude">
+    </form>
+  </div>
+<script src="http://d3js.org/d3.v3.min.js"></script>
+<script src="http://d3js.org/topojson.v1.min.js"></script>
+<script src="http://code.jquery.com/jquery-1.10.2.min.js"></script>
+<script>
+var lat, lon, accu, grados, minutos, segundos, gradosDecimales;
+  function getLocation()  {
+    var options = null;
+    if (navigator.geolocation) {
+      options={enableHighAccuracy: true, maximumAge: 3000, timeout: 30000};
+      navigator.geolocation.getCurrentPosition(showPosition,getNoPosition,options);
+    }
+    else {
+      texto.innerHTML = "Geolocation is not supported by this browser.";
+    }
+  };
+
+  function showPosition(position) {
+    texto2.innerHTML = 'Latitude: '+ position.coords.latitude;
+    lat = position.coords.latitude;
+    lon = position.coords.longitude;
+    accu= position.coords.accuracy;
+
+    calculateVelocity(toRadians(lat));
+
+  };
+  function getNoPosition(position) {
+    //map.setView([41.3905, 2.1914], 15);
+    texto.innerHTML = "Geolocation is not supported"
+  };
+
+  function latitudeInput(){
+    grados = $('#grados').val();
+    minutos = $('#minutos').val();
+    segundos = $('#segundos').val();
+    gradosDecimales= +grados+(+minutos/60)+(+segundos/3600)
+    texto.innerHTML = 'Latitud: '+ gradosDecimales 
+    calculateVelocity(gradosDecimales)
+  };
+
+  function calculateVelocity(gradosDecimales){
+    var diaSiderio= 23.93446959;//hours
+    var wEcuador=1674.36400;// km/h
+    var velocity= wEcuador * Math.cos(toRadians(gradosDecimales));
+    texto.innerHTML = "Velocity: "+ velocity+ "km/h"
+  };
+  function toRadians (angle) {
+    return angle * (Math.PI / 180);
+  }
+  
+  //globe
+  var width = 960,
+      height = 500,
+      rotate = [10, -10],
+      velocity = [.003, -.001],
+      time = Date.now();
+
+  var projection = d3.geo.orthographic()
+      .scale(240)
+      .translate([width / 2, height / 2])
+      .clipAngle(90 + 1e-6)
+      .precision(.3);
+
+  var path = d3.geo.path()
+      .projection(projection);
+
+  var graticule = d3.geo.graticule();
+
+  var svg = d3.select("body").append("svg")
+      .attr("width", width)
+      .attr("height", height);
+
+  svg.append("path")
+      .datum({type: "Sphere"})
+      .attr("class", "sphere")
+      .attr("d", path);
+
+  svg.append("path")
+      .datum(graticule)
+      .attr("class", "graticule")
+      .attr("d", path);
+
+  svg.append("path")
+      .datum({type: "LineString", coordinates: [[-180, 0], [-90, 0], [0, 0], [90, 0], [180, 0]]})
+      .attr("class", "equator")
+      .attr("d", path);
+
+  var feature = svg.selectAll("path");
+
+  d3.timer(function() {
+    var dt = Date.now() - time;
+    projection.rotate([rotate[0] + velocity[0] * dt, rotate[1] + velocity[1] * dt]);
+    feature.attr("d", path);
+  });
+</script>
+</body>
+</html>
