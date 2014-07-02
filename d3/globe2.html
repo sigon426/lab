@@ -115,7 +115,7 @@ var lat, lon, accu, grados, minutos, segundos, gradosDecimales;
 
   var graticule = d3.geo.graticule();
   var graticule2 = d3.geo.graticule()
-    .extent([[0, 41], [41 + 1e-6, 180 + 1e-6]])
+    .extent([[-180, -75], [180, 75 + 1e-6]]);
     .step([3, 3]);
 
   var svg = d3.select("body").append("svg")
