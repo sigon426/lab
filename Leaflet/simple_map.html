@@ -41,11 +41,18 @@
 		  subdomains: '1234',
 		  maxZoom:11
 		});
+		var Sat = L.tileLayer( 'http://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}', {
+			attribution: 'Map tiles by Esri &mdash; Source: Esri, i-cubed, USDA, USGS, AEX, GeoEye, Getmapping, Aerogrid, IGN, IGP, UPR-EGP, and the GIS User Community.'
+
+		});
+
+
 	
 
 		var baseLayers = {
 		  "osm": osmlayer,
-		  "MapQuest Sat":MapQuest
+		  "MapQuest Sat":MapQuest,
+		  "Sat":Sat
 		};
 
 		L.control.layers(baseLayers).addTo(map);
