@@ -89,6 +89,7 @@ var lat, lon, accu, grados, minutos, segundos, gradosDecimales;
     gradosDecimales= +grados+(+minutos/60)+(+segundos/3600)
     texto.innerHTML = 'Latitud: '+ gradosDecimales 
     calculateVelocity(gradosDecimales)
+    addMyLocation2Globe(3, gradosDecimales);
   };
 
   function calculateVelocity(gradosDecimales){
@@ -143,7 +144,9 @@ var lat, lon, accu, grados, minutos, segundos, gradosDecimales;
       .attr("d", path);
 
   function addMyLocation2Globe(lon, lat){
-
+    console.log(lat + 1e-6)
+    console.log(typeof(lat))
+    
     //the paralel whatever
     var graticule2 = d3.geo.graticule()
       .extent([[-180, lat], [180, lat + 1e-6]])//long, lat
