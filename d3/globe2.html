@@ -73,10 +73,8 @@ var lat, lon, accu, grados, minutos, segundos, gradosDecimales;
     accu= position.coords.accuracy;
 
     calculateVelocity(toRadians(lat));
-    svg.append("path")
-      .datum({type: "Point", coordinates: [lon, lat]})//[lon,lat]
-      .attr("class", "myLocation")
-      .attr("d", path); 
+    addMyLocation2Globe(lon, lat)
+
 
   };
   function getNoPosition(position) {
@@ -123,10 +121,7 @@ var lat, lon, accu, grados, minutos, segundos, gradosDecimales;
 
   var graticule = d3.geo.graticule();
 
-  //the paralel 41
-  var graticule2 = d3.geo.graticule()
-    .extent([[-180, 41], [180, 41 + 1e-6]])//long, lat
-    .step([1, 1]);
+
 
   var svg = d3.select("body").append("svg")
       .attr("width", width)
@@ -147,15 +142,31 @@ var lat, lon, accu, grados, minutos, segundos, gradosDecimales;
       .attr("class", "equator")
       .attr("d", path);
 
-  svg.append("path")
-      .datum(graticule2)
-      .attr("class", "myLat")
-      .attr("d", path);
+  function addMyLocation2Globe(lon, lat){
 
-  svg.append("path")
-      .datum({type: "Point", coordinates: [-9, 59]})//[lon,lat]
+    //the paralel whatever
+    var graticule2 = d3.geo.graticule()
+      .extent([[-180, lat], [180, lat + 1e-6]])//long, lat
+      .step([1, 1]);
+    
+    svg.append("path")
+      .datum({type: "Point", coordinates: [lon, lat]})
       .attr("class", "myLocation")
       .attr("d", path); 
+
+    svg.append("path")
+        .datum(graticule2)
+        .attr("class", "myLat")
+        .attr("d", path);
+    
+    var feature = svg.selectAll("path");
+
+    d3.timer(function() {
+      var dt = Date.now() - time;
+      projection.rotate([rotate[0] + velocity[0] * dt, rotate[1] + velocity[1] * dt]);
+      feature.attr("d", path);
+    });
+  };//end addMyLocation2Globe()
 
 
   /*var json = {
@@ -190,13 +201,7 @@ var lat, lon, accu, grados, minutos, segundos, gradosDecimales;
       .attr("class", "miLatitud")
       .attr("d", path);*/
 
-  var feature = svg.selectAll("path");
 
-  d3.timer(function() {
-    var dt = Date.now() - time;
-    projection.rotate([rotate[0] + velocity[0] * dt, rotate[1] + velocity[1] * dt]);
-    feature.attr("d", path);
-  });
 </script>
 </body>
 </html>
