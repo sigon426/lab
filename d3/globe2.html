@@ -71,7 +71,8 @@ var lat, lon, accu, grados, minutos, segundos, gradosDecimales;
     t1 = (dd - d) * 60;
     m = Math.floor(t1);
     s = (t1 - m) * 60;
-    var GradMinSec= d+String.fromCharCode(167)+m+"'"+s+'"'
+    s=roundToTwo(s)
+    var GradMinSec= d+String.fromCharCode(248)+m+"'"+s+'"'
     console.log(GradMinSec)
     return GradMinSec
   }
@@ -101,7 +102,9 @@ var lat, lon, accu, grados, minutos, segundos, gradosDecimales;
     gradosDecimales= +grados+(+minutos/60)+(+segundos/3600)
     texto.innerHTML = 'Latitud: '+ gradosDecimales 
     calculateVelocity(gradosDecimales)
-
+console.log('º');
+console.log(String.fromCharCode(248))
+console.log('&#176');
     addMyLocation2Globe(3, gradosDecimales);
   };
 
