@@ -71,7 +71,7 @@ var lat, lon, accu, grados, minutos, segundos, gradosDecimales;
     lat = position.coords.latitude;
     lon = position.coords.longitude;
     accu= position.coords.accuracy;
-
+    
     calculateVelocity(toRadians(lat));
     addMyLocation2Globe(lon, lat);
 
@@ -89,6 +89,7 @@ var lat, lon, accu, grados, minutos, segundos, gradosDecimales;
     gradosDecimales= +grados+(+minutos/60)+(+segundos/3600)
     texto.innerHTML = 'Latitud: '+ gradosDecimales 
     calculateVelocity(gradosDecimales)
+
     addMyLocation2Globe(3, gradosDecimales);
   };
 
@@ -144,12 +145,12 @@ var lat, lon, accu, grados, minutos, segundos, gradosDecimales;
       .attr("d", path);
 
   function addMyLocation2Globe(mylon, mylat){
+    myIntegerlat= Math.floor(mylat);
     console.log(mylat + 1e-6 +', '+ mylon)
-    console.log(typeof(mylat))
     
     //the paralel whatever
     var graticule2 = d3.geo.graticule()
-      .extent([[-180, mylat], [180, mylat + 1e-6]])//long, lat
+      .extent([[-180, myIntegerlat], [180, myIntegerlat + 1e-6]])//long, lat
       .step([1, 1]);
     
     svg.append("path")
@@ -171,6 +172,9 @@ var lat, lon, accu, grados, minutos, segundos, gradosDecimales;
     });
   };//end addMyLocation2Globe()
 
+  function roundTofour(num) {    
+      return +(Math.round(num + "e+0")  + "e-0");
+  };
 
   /*var json = {
     "type": "FeatureCollection",
