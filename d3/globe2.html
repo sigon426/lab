@@ -101,10 +101,10 @@
     segundos = $('#segundos').val();
     gradosDecimales= +grados+(+minutos/60)+(+segundos/3600)
     texto.innerHTML = 'Latitud: '+ gradosDecimales 
-    calculateVelocity(gradosDecimales)
-
-    addMyLocation2Globe(3, gradosDecimales);
     lat=grados;
+
+    calculateVelocity(gradosDecimales)
+    addMyLocation2Globe(3, gradosDecimales);
   };
 
   function calculateVelocity(gradosDecimales){
