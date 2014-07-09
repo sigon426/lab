@@ -97,6 +97,7 @@ var lat, lon, accu, grados, minutos, segundos, gradosDecimales;
     var diaSiderio= 23.93446959;//hours
     var wEcuador=1674.36400;// km/h
     var velocity= wEcuador * Math.cos(toRadians(gradosDecimales));
+    velocity= roundToTwo(velocity)
     texto.innerHTML = "Velocity: "+ velocity+ "km/h"
   };
   function toRadians (angle) {
@@ -172,8 +173,8 @@ var lat, lon, accu, grados, minutos, segundos, gradosDecimales;
     });
   };//end addMyLocation2Globe()
 
-  function roundTofour(num) {    
-      return +(Math.round(num + "e+0")  + "e-0");
+  function roundToTwo(num) {    
+      return +(Math.round(num + "e+2")  + "e-2");
   };
 
   /*var json = {
