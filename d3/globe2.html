@@ -29,8 +29,8 @@
       }
       .myLocation{
         stroke: yellow;
-        stroke-width: 10px;  
-        fill: #444;
+        stroke-width: 5px;  
+        fill: red;
       }
 
     </style>
@@ -73,6 +73,10 @@ var lat, lon, accu, grados, minutos, segundos, gradosDecimales;
     accu= position.coords.accuracy;
 
     calculateVelocity(toRadians(lat));
+    svg.append("path")
+      .datum({type: "Point", coordinates: [lon, lat]})//[lon,lat]
+      .attr("class", "myLocation")
+      .attr("d", path); 
 
   };
   function getNoPosition(position) {
@@ -148,13 +152,13 @@ var lat, lon, accu, grados, minutos, segundos, gradosDecimales;
       .attr("class", "myLat")
       .attr("d", path);
 
-  /*svg.append("path")
-      .datum({type: "Point ", coordinates: [-3, 49]})
+  svg.append("path")
+      .datum({type: "Point", coordinates: [-9, 59]})//[lon,lat]
       .attr("class", "myLocation")
-      .attr("d", path); */
+      .attr("d", path); 
 
 
-  var json = {
+  /*var json = {
     "type": "FeatureCollection",
     "features": [
       {
@@ -164,7 +168,7 @@ var lat, lon, accu, grados, minutos, segundos, gradosDecimales;
           "type": "Point",
           "coordinates": [
             -3.40576171875,
-            41
+            49
           ]
         }
       }
@@ -172,13 +176,12 @@ var lat, lon, accu, grados, minutos, segundos, gradosDecimales;
   }
 
 
-  svg.selectAll("path")
+  svg.selectAll("path.Point")
     .data(json.features)
-    .style("fill", "red")   
     .enter()
     .append("path")
     .attr("class", "myLocation")
-    .attr("d", path)
+    .attr("d", path)*/
 
 
 
