@@ -39,7 +39,7 @@
   <div class="info">
     <p id="texto">Latitud</p>
     <p id="texto2"></p>
-    <form class="parcelaSelector">
+    <form id="locationInput" >
       Grados: <input type="number" id="grados" placeholder="12"/>
       <br>
       Minutos: <input type="number" id="minutos" placeholder="11"/>
@@ -54,7 +54,7 @@
 <script src="http://d3js.org/topojson.v1.min.js"></script>
 <script src="http://code.jquery.com/jquery-1.10.2.min.js"></script>
 <script>
-var lat, lon, accu, grados, minutos, segundos, gradosDecimales;
+  var lat, lon, accu, grados, minutos, segundos, gradosDecimales;
   function getLocation()  {
     var options = null;
     if (navigator.geolocation) {
@@ -73,12 +73,11 @@ var lat, lon, accu, grados, minutos, segundos, gradosDecimales;
     s = (t1 - m) * 60;
     s=roundToTwo(s)
     var GradMinSec= d+'º'+m+"'"+s+'"'
-    console.log(GradMinSec)
+
     return GradMinSec
   }
 
   function showPosition(position) {
-
 
     texto2.innerHTML = 'Lat: '+ decimalToMinutes(position.coords.latitude) +' Long: '+ decimalToMinutes(position.coords.longitude);
     lat = position.coords.latitude;
@@ -87,7 +86,7 @@ var lat, lon, accu, grados, minutos, segundos, gradosDecimales;
     
     calculateVelocity(toRadians(lat));
     addMyLocation2Globe(lon, lat);
-
+    $('#locationInput').hide()
 
   };
   function getNoPosition(position) {
