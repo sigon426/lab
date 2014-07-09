@@ -72,7 +72,7 @@ var lat, lon, accu, grados, minutos, segundos, gradosDecimales;
     m = Math.floor(t1);
     s = (t1 - m) * 60;
     s=roundToTwo(s)
-    var GradMinSec= d+String.fromCharCode(248)+m+"'"+s+'"'
+    var GradMinSec= d+'º'+m+"'"+s+'"'
     console.log(GradMinSec)
     return GradMinSec
   }
