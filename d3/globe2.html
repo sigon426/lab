@@ -66,8 +66,20 @@ var lat, lon, accu, grados, minutos, segundos, gradosDecimales;
     }
   };
 
+  function decimalToMinutes(dd){
+    d = Math.floor(dd);  // Truncate the decimals
+    t1 = (dd - d) * 60;
+    m = Math.floor(t1);
+    s = (t1 - m) * 60;
+    var GradMinSec= d+String.fromCharCode(167)+m+"'"+s+'"'
+    console.log(GradMinSec)
+    return GradMinSec
+  }
+
   function showPosition(position) {
-    texto2.innerHTML = 'Latitude: '+ position.coords.latitude +' Long: '+ position.coords.longitude;;
+
+
+    texto2.innerHTML = 'Lat: '+ decimalToMinutes(position.coords.latitude) +' Long: '+ decimalToMinutes(position.coords.longitude);
     lat = position.coords.latitude;
     lon = position.coords.longitude;
     accu= position.coords.accuracy;
