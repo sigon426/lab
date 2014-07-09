@@ -113,7 +113,7 @@
     var velocity= wEcuador * Math.cos(toRadians(gradosDecimales));
     velocity= roundToTwo(velocity)
     texto.innerHTML = "Velocity: "+ velocity+ "km/h"
-    texto3.innerHTML = "The Earth rotates once in about 24 hours with respect to the sun, in parallel "+lat+" the angular velocity is "+ velocity+ "km/h"
+    texto3.innerHTML = "The Earth rotates once in about 24 hours with respect to the sun,<br> in parallel "+Math.floor(lat)+" the angular velocity is "+ velocity+ "km/h"
   };
   function toRadians (angle) {
     return angle * (Math.PI / 180);
