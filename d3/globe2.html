@@ -51,6 +51,9 @@
       <input type="button" onclick="getLocation()" value="Get latitude">
     </form>
   </div>
+  <div class="title">
+    <h2>how fast are you moving due to the Earth's rotation?</h2>
+  </div>
 <script src="http://d3js.org/d3.v3.min.js"></script>
 <script src="http://d3js.org/topojson.v1.min.js"></script>
 <script src="http://code.jquery.com/jquery-1.10.2.min.js"></script>
@@ -114,12 +117,13 @@
     velocity= roundToTwo(velocity)
     texto.innerHTML = "Velocity: "+ velocity+ "km/h"
     texto3.innerHTML = "The Earth rotates once in about 24 hours with respect to the sun,<br> in parallel "+Math.floor(lat)+" the angular velocity is "+ velocity+ "km/h"
-  };
+  };//http://www.castor2.ca/16_Calc/03_Rotation/index.html
   function toRadians (angle) {
     return angle * (Math.PI / 180);
   }
   
-  //globe
+
+  // globe modified from: http://bl.ocks.org/mbostock/5731578
   var width = 940,
       height = 500,
       rotate = [10, -10],
@@ -181,11 +185,13 @@
     
     var feature = svg.selectAll("path");
 
+    //rotation[yaw, pitch and roll], or equivalently longitude, latitude and roll) in degrees
     d3.timer(function() {
       var dt = Date.now() - time;
       projection.rotate([rotate[0] + velocity[0] * dt, rotate[1] + velocity[1] * dt]);
       feature.attr("d", path);
     });
+
   };//end addMyLocation2Globe()
 
   function roundToTwo(num) {    
