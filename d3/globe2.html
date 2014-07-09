@@ -39,6 +39,7 @@
   <div class="info">
     <p id="texto">Latitud</p>
     <p id="texto2"></p>
+    <p id="texto3"></p>
     <form id="locationInput" >
       Grados: <input type="number" id="grados" placeholder="12"/>
       <br>
@@ -101,10 +102,9 @@
     gradosDecimales= +grados+(+minutos/60)+(+segundos/3600)
     texto.innerHTML = 'Latitud: '+ gradosDecimales 
     calculateVelocity(gradosDecimales)
-console.log('º');
-console.log(String.fromCharCode(248))
-console.log('&#176');
+
     addMyLocation2Globe(3, gradosDecimales);
+    lat=grados;
   };
 
   function calculateVelocity(gradosDecimales){
@@ -113,6 +113,7 @@ console.log('&#176');
     var velocity= wEcuador * Math.cos(toRadians(gradosDecimales));
     velocity= roundToTwo(velocity)
     texto.innerHTML = "Velocity: "+ velocity+ "km/h"
+    texto3.innerHTML = "The Earth rotates once in about 24 hours with respect to the sun, in parallel "+lat+" the angular velocity is "+ velocity+ "km/h"
   };
   function toRadians (angle) {
     return angle * (Math.PI / 180);
@@ -163,7 +164,7 @@ console.log('&#176');
     myIntegerlat= Math.floor(mylat);
     console.log(mylat + 1e-6 +', '+ mylon)
     
-    //the paralel whatever
+    //parallel whatever
     var graticule2 = d3.geo.graticule()
       .extent([[-180, myIntegerlat], [180, myIntegerlat + 1e-6]])//long, lat
       .step([1, 1]);
