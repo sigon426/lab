@@ -3,12 +3,20 @@
 <head>
     <title>Get my velocity</title>
     <style>
+      body{
+        background: #313233;
+      }
       .info{
-        margin: 0;
-        padding: 0;
+        margin: 30px 10px;
         border: 0;
         float:right;
         width: 370px;
+        background-color: #9C9B9E;
+        padding: 15px;
+        border-radius: 15px;
+      }
+      .title{
+        color: white;
       }
       path {
         fill: none;
@@ -88,7 +96,8 @@
     lat = position.coords.latitude;
     lon = position.coords.longitude;
     accu= position.coords.accuracy;
-    
+    console.log('lat: '+lat)
+    console.log('toradians(lat) '+toRadians(lat))
     calculateVelocity(toRadians(lat));
     addMyLocation2Globe(lon, lat);
     $('#locationInput').hide()
@@ -112,12 +121,13 @@
   };
 
   function calculateVelocity(gradosDecimales){
+    console.log(gradosDecimales)
     var diaSiderio= 23.93446959;//hours
     var wEcuador=1674.36400;// km/h
     var velocity= wEcuador * Math.cos(toRadians(gradosDecimales));
     velocity= roundToTwo(velocity)
     texto.innerHTML = "<h3>Velocity: "+ velocity+ "km/h</h3>"
-    texto3.innerHTML = "Earth's rotation period relative to the fixed stars (sidereal rotation period) is  23 hours 56 minutes 4.1 seconds.<p>The Earth's radius is 6371,14 km.</p><p>A spot on the Earth's equator traces out a full circle every sidereal day. The circumference of this circle can easily be calculated with this ecuation:<br> D= 2πR= 40031.1 km.</p><p>The velocity of a person located on the ecuador is<br> w<sub>e</sub>= 40031.1km/23.9344696h= 1674km/h</p><p>In parallel "+Math.floor(lat)+" the angular velocity is (w<sub>e</sub>*cos(λ)="+ velocity+ "km/h </p><p>Note that the Speed of sound is 1234 km/h</p>"
+    texto3.innerHTML = "Earth's rotation period relative to the fixed stars (sidereal rotation period) is  23 hours 56 minutes 4.1 seconds.<p>The Earth's radius is 6371,14 km.</p><p>A spot on the Earth's equator traces out a full circle every sidereal day. The circumference of this circle can easily be calculated with this ecuation:<br> D= 2πR= 40031.1 km.</p><p>The velocity of a person located on the ecuador is<br> w<sub>e</sub>= 40031.1km/23.9344696h= 1674km/h</p><p>In parallel "+Math.floor(lat)+" the angular velocity is w<sub>e</sub>*cos(λ)="+ velocity+ "km/h </p><p>Note: Speed of sound is 1234 km/h</p>"
   };//http://www.castor2.ca/16_Calc/03_Rotation/index.html
   function toRadians (angle) {
     return angle * (Math.PI / 180);
@@ -125,13 +135,13 @@
   
 
   // globe modified from: http://bl.ocks.org/mbostock/5731578
-  var width = 930,
+  var width = 900,
       height = 500,
       rotate = [10, -10],
       velocity = [.003, -.001],
       time = Date.now();
 
-  //define orthographic projection
+  //define orthographic projection (make a globe)
   var projection = d3.geo.orthographic()
       .scale(240)
       .translate([width / 2, height / 2])
@@ -189,7 +199,7 @@
     //rotation[yaw, pitch and roll], or equivalently longitude, latitude and roll) in degrees
     d3.timer(function() {
       var dt = Date.now() - time;
-      projection.rotate([rotate[0] + velocity[0] * dt, rotate[1] + velocity[1]]);
+      projection.rotate([rotate[0] + velocity[0] * dt, rotate[1] + velocity[1],3]);
       feature.attr("d", path);
     });
 
