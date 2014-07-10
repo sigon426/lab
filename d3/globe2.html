@@ -7,7 +7,8 @@
         margin: 0;
         padding: 0;
         border: 0;
-        float:right
+        float:right;
+        width: 370px;
       }
       path {
         fill: none;
@@ -115,8 +116,8 @@
     var wEcuador=1674.36400;// km/h
     var velocity= wEcuador * Math.cos(toRadians(gradosDecimales));
     velocity= roundToTwo(velocity)
-    texto.innerHTML = "Velocity: "+ velocity+ "km/h"
-    texto3.innerHTML = "The Earth rotates once in about 24 hours with respect to the sun,<br> in parallel "+Math.floor(lat)+" the angular velocity is "+ velocity+ "km/h"
+    texto.innerHTML = "<h3>Velocity: "+ velocity+ "km/h</h3>"
+    texto3.innerHTML = "Earth's rotation period relative to the fixed stars (sidereal rotation period) is  23 hours 56 minutes 4.1 seconds.<p>The Earth's radius is 6371,14 km.</p><p>A spot on the Earth's equator traces out a full circle every sidereal day. The circumference of this circle can easily be calculated with this ecuation:<br> D= 2πR= 40031.1 km.</p><p>The velocity of a person located on the ecuador is<br> w<sub>e</sub>= 40031.1km/23.9344696h= 1674km/h</p><p>In parallel "+Math.floor(lat)+" the angular velocity is (w<sub>e</sub>*cos(λ)="+ velocity+ "km/h </p><p>Note that the Speed of sound is 1234 km/h</p>"
   };//http://www.castor2.ca/16_Calc/03_Rotation/index.html
   function toRadians (angle) {
     return angle * (Math.PI / 180);
@@ -124,7 +125,7 @@
   
 
   // globe modified from: http://bl.ocks.org/mbostock/5731578
-  var width = 940,
+  var width = 930,
       height = 500,
       rotate = [10, -10],
       velocity = [.003, -.001],
