@@ -53,7 +53,7 @@
     </form>
   </div>
   <div class="title">
-    <h2>how fast are you moving due to the Earth's rotation?</h2>
+    <h2>How fast are you moving due to the Earth's rotation?</h2>
   </div>
 <script src="http://d3js.org/d3.v3.min.js"></script>
 <script src="http://d3js.org/topojson.v1.min.js"></script>
@@ -189,7 +189,7 @@
     //rotation[yaw, pitch and roll], or equivalently longitude, latitude and roll) in degrees
     d3.timer(function() {
       var dt = Date.now() - time;
-      projection.rotate([rotate[0] + velocity[0] * dt, rotate[1] + velocity[1] * dt]);
+      projection.rotate([rotate[0] + velocity[0] * dt, rotate[1] + velocity[1]]);
       feature.attr("d", path);
     });
 
