@@ -41,28 +41,35 @@
         stroke-width: 5px;  
         fill: red;
       }
+      #locationInput>span{
+        float: left;
+        text-align: right;
+        padding-right: 10px;
+        width: 20%;
+      }
 
     </style>
 </head>
 <body>
-  <div class="info">
-    <p id="texto">Latitud</p>
-    <p id="texto2"></p>
-    <p id="texto3"></p>
-    <form id="locationInput" >
-      Grados: <input type="number" id="grados" placeholder="12"/>
-      <br>
-      Minutos: <input type="number" id="minutos" placeholder="11"/>
-      <br>
-      Segundos: <input type="number" id="segundos" placeholder="11"/>
-      <br><br>
-      <input type="button" onclick="latitudeInput()" value="Set latitude">
-      <input type="button" onclick="getLocation()" value="Get latitude">
-    </form>
-  </div>
   <div class="title">
     <h2>How fast are you moving due to the Earth's rotation?</h2>
   </div>
+  <div class="info">
+    <p id="texto">Latitude</p>
+    <p id="texto2"></p>
+    <p id="texto3"></p>
+    <form id="locationInput" >
+      <span>Degrees: </span><input type="number" id="grados" placeholder="12"/>
+      <br>
+      <span>Minutes: </span><input type="number" id="minutos" placeholder="11"/>
+      <br>
+      <span>Seconds: </span><input type="number" id="segundos" placeholder="11"/>
+      <br><br>
+      <input type="button" onclick="latitudeInput()" value="Set a latitude">
+      <input type="button" onclick="getLocation()" value="Get my latitude">
+    </form>
+  </div>
+
 <script src="http://d3js.org/d3.v3.min.js"></script>
 <script src="http://d3js.org/topojson.v1.min.js"></script>
 <script src="http://code.jquery.com/jquery-1.10.2.min.js"></script>
@@ -89,15 +96,15 @@
 
     return GradMinSec
   }
-
+//http://blog.safaribooksonline.com/2014/02/17/building-responsible-visualizations-d3-js/
+//http://stackoverflow.com/questions/9400615/whats-the-best-way-to-make-a-d3-js-visualisation-layout-responsive
   function showPosition(position) {
 
     texto2.innerHTML = 'Lat: '+ decimalToMinutes(position.coords.latitude) +' Long: '+ decimalToMinutes(position.coords.longitude);
     lat = position.coords.latitude;
     lon = position.coords.longitude;
     accu= position.coords.accuracy;
-    console.log('lat: '+lat)
-    console.log('toradians(lat) '+toRadians(lat))
+
     calculateVelocity(lat);
     addMyLocation2Globe(lon, lat);
     $('#locationInput').hide()
@@ -121,13 +128,12 @@
   };
 
   function calculateVelocity(gradosDecimales){
-    console.log(gradosDecimales)
     var diaSiderio= 23.93446959;//hours
     var wEcuador=1674.36400;// km/h
     var velocity= wEcuador * Math.cos(toRadians(gradosDecimales));
     velocity= roundToTwo(velocity)
-    texto.innerHTML = "<h3>Velocity: "+ velocity+ "km/h</h3>"
-    texto3.innerHTML = "Earth's rotation period relative to the fixed stars (sidereal rotation period) is  23 hours 56 minutes 4.1 seconds.<p>The Earth's radius is 6371,14 km.</p><p>A spot on the Earth's equator traces out a full circle every sidereal day. The circumference of this circle can easily be calculated with this ecuation:<br> D= 2πR= 40031.1 km.</p><p>The velocity of a person located on the ecuador is<br> w<sub>e</sub>= 40031.1km/23.9344696h= 1674km/h</p><p>In parallel "+Math.floor(lat)+" the angular velocity is w<sub>e</sub>*cos(λ)="+ velocity+ "km/h </p><p>Note: Speed of sound is 1234 km/h</p>"
+    texto.innerHTML = "<h2>Velocity: "+ velocity+ "km/h</h2>"
+    texto3.innerHTML = "Earth's rotation period relative to the fixed stars (sidereal rotation period) is  23 hours 56 minutes 4.1 seconds.<p>The Earth's radius is 6371,14 km.</p><p>A spot on the Earth's equator traces out a full circle every sidereal day. The circumference of this circle can easily be calculated with this ecuation:<br> D<sub>e</sub>= 2πR= 40031.1 km.</p><p>The velocity of a person located on the ecuador is<br> w<sub>e</sub>= 40031.1km/23.9344696h= 1674km/h</p><p>In parallel "+Math.floor(lat)+" the angular velocity is w<sub>e</sub>*cos(λ)="+ velocity+ "km/h </p><p>Note: Speed of sound is 1234 km/h</p>"
   };//http://www.castor2.ca/16_Calc/03_Rotation/index.html
   function toRadians (angle) {
     return angle * (Math.PI / 180);
@@ -135,7 +141,7 @@
   
 
   // globe modified from: http://bl.ocks.org/mbostock/5731578
-  var width = 900,
+  var width = 700,
       height = 500,
       rotate = [10, -10],
       velocity = [.003, -.001],
@@ -153,8 +159,6 @@
       .pointRadius(10);
 
   var graticule = d3.geo.graticule();
-
-
 
   var svg = d3.select("body").append("svg")
       .attr("width", width)
