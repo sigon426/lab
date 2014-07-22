@@ -1,0 +1,61 @@
+<html ng-app="APP">
+  <head>
+  	<title>angular-leaflet-directive Nalda</title>
+  	<script src="http://cdn.leafletjs.com/leaflet-0.7.1/leaflet.js"></script>
+  	<script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.2.6/angular.min.js"></script>
+  	<script src="js/angular-leaflet-directive.js"></script>
+    <link rel="stylesheet" href="http://cdn.leafletjs.com/leaflet-0.7.1/leaflet.css" />
+    <script>
+
+        var app = angular.module("APP", ["leaflet-directive"]);
+        app.controller("ctrl", [ "$scope", function($scope) {
+          angular.extend($scope, {
+              Nalda: {
+                lat: 42.33,
+                lng: -2.50,
+                zoom: 14
+              },
+              layers: {
+                "baselayers": {
+                  "xyz": {
+                    "name": "OpenStreetMap (XYZ)",
+                    "url": "http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",
+                    "type": "xyz",
+                    "layerParams": {},
+                    "layerOptions": {}
+                  }
+                },
+                "overlays": {
+                  "wms": {
+                    "name": "Nalda, IdeRioja WMS",
+                    "type": "wms",
+                    "url": "http://ogc.larioja.org/wms/103nald/request.php?",
+                    "layerParams": {
+                      "layers": "Edificaciones",
+                      "format": "image/png",
+                      "transparent": true,
+                      "attribution": "PNOA WMS. Cedido por &copy; Instituto Geografico Nacional de España"
+                    },
+                    "layerOptions": {
+                      "layers": "Edificaciones",
+                      "format": "image/png",
+                      "transparent": true
+                    }
+                  }
+                }
+              }
+              
+          });
+        }]);
+    </script>
+    <style>
+        .angular-leaflet-map {
+            width: 100%;
+            height: 100%;
+        }
+    </style>
+  </head>
+  <body ng-controller="ctrl">
+    <leaflet center="Nalda" defaults="defaults" layers="layers"></leaflet>
+  </body>
+</html>

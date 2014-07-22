@@ -1,0 +1,30 @@
+<html ng-app="APP">
+  <head>
+  	<title>angular-leaflet-directive example</title>
+  	<script src="http://cdn.leafletjs.com/leaflet-0.7.1/leaflet.js"></script>
+  	<script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.2.6/angular.min.js"></script>
+  	<script src="js/angular-leaflet-directive.js"></script>
+    <link rel="stylesheet" href="http://cdn.leafletjs.com/leaflet-0.7.1/leaflet.css" />
+    <script>
+        var app = angular.module("APP", ["leaflet-directive"]);
+        app.controller("ctrl", [ "$scope", function($scope) {
+          angular.extend($scope, {
+              Barcelona: {
+                lat: 41.3825,
+                lng: 2.176944,
+                zoom: 14
+              }
+          });
+        }]);
+    </script>
+    <style>
+        .angular-leaflet-map {
+            width: 100%;
+            height: 100%;
+        }
+    </style>
+  </head>
+  <body ng-controller="ctrl">
+    <leaflet center="Barcelona"></leaflet>
+  </body>
+</html>
