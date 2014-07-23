@@ -1,6 +1,8 @@
+<!-- http://ogc.larioja.org/wms/103nald/request.php?request=GetCapabilities&service=WMS -->
+
 <html ng-app="APP">
   <head>
-  	<title>angular-leaflet-directive Nalda</title>
+  	<title>angular-leaflet-directive Nalda, ide Rioja</title>
   	<script src="http://cdn.leafletjs.com/leaflet-0.7.1/leaflet.js"></script>
   	<script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.2.6/angular.min.js"></script>
   	<script src="js/angular-leaflet-directive.js"></script>
@@ -26,20 +28,40 @@
                   }
                 },
                 "overlays": {
-                  "wms": {
-                    "name": "Nalda, IdeRioja WMS",
+                  "edificaciones": {
+                    "name": "edificaciones",
                     "type": "wms",
                     "url": "http://ogc.larioja.org/wms/103nald/request.php?",
-                    "layerParams": {
-                      "layers": "Edificaciones",
-                      "format": "image/png",
-                      "transparent": true,
-                      "attribution": "PNOA WMS. Cedido por &copy; Instituto Geografico Nacional de España"
                     },
                     "layerOptions": {
                       "layers": "Edificaciones",
                       "format": "image/png",
-                      "transparent": true
+                      "transparent": true,
+                      "attribution": "IDErioja &copy; 2014 Gobierno de La Rioja"
+                    }
+                  },
+                  "Curvas_Nivel": {
+                    "name": "Curvas_Nivel",
+                    "type": "wms",
+                    "url": "http://ogc.larioja.org/wms/103nald/request.php?",
+                    },
+                    "layerOptions": {
+                      "layers": "Curvas_Nivel",
+                      "format": "image/png",
+                      "transparent": true,
+                      "attribution": "IDErioja &copy; 2014 Gobierno de La Rioja"
+                    }
+                  },
+                  "Rios": {
+                    "name": "Rios",
+                    "type": "wms",
+                    "url": "http://ogc.larioja.org/wms/103nald/request.php?",
+                    },
+                    "layerOptions": {
+                      "layers": "Rios",
+                      "format": "image/png",
+                      "transparent": true,
+                      "attribution": "IDErioja &copy; 2014 Gobierno de La Rioja"
                     }
                   }
                 }
