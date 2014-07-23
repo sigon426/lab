@@ -21,11 +21,18 @@ http://mappingco.github.io/lab/Leaflet/osmb/bcn_shadows.html
 
 http://mappingco.github.io/lab/Leaflet/osmb/myTower.html
 
-* Interactive Poligons
+* Interactive Poligons with Google Street View photos
 
 http://mappingco.github.io/lab/Leaflet/interactivePoligons.html
 
+* swipe layers 
 
-* swipe layers https://github.com/gccgisteam/leaflet-examples/blob/master/leafletSwipe.html
+http://mappingco.github.io/lab/Leaflet/swipelayers2.html
 
-* http://mappingco.github.io/lab/Leaflet/orthodrome/
+* Orthodrome 
+
+http://mappingco.github.io/lab/Leaflet/orthodrome/
+
+* Camino de Santiago (Angular Leaflet Directive)
+
+http://mappingco.github.io/lab/Leaflet/angular-leaflet-directive/caminoSantiago.html
