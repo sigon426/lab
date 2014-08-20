@@ -36,3 +36,7 @@ http://mappingco.github.io/lab/Leaflet/orthodrome/
 * Camino de Santiago (Angular Leaflet Directive)
 
 http://mappingco.github.io/lab/Leaflet/angular-leaflet-directive/caminoSantiago.html
+
+* Custom Infowindow (CartoDB)
+
+http://mappingco.github.io/lab/cartoDB/custom_infowindow.html
