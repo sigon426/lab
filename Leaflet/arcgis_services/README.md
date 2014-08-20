@@ -48,7 +48,7 @@ http://mappingco.github.io/lab/Leaflet/arcgis_services/example_4.html
 
 http://mappingco.github.io/lab/Leaflet/arcgis_services/example_5.html
 
-![example_5](http://mappingco.github.io/lab/Leaflet/arcgis_services/img/example_5.png)
+![example_5](http://mappingco.github.io/lab/Leaflet/arcgis_services/img/example5.png)
 
 Arcgis dynamicMapLayer
 ----------------------
