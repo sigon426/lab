@@ -6,17 +6,14 @@ A lot of public data are layers available only through ArcGIS Server map service
 Esri-Leaflet is a Javascript library used to make applications using the Leaflet.js library.
 
 http://esri.github.io/esri-leaflet/
-![esri-leaflet](http://mappingco.github.io/lab/Leaflet/arcgis_services/esri-leaflet.png)
+
+![esri-leaflet](http://mappingco.github.io/lab/Leaflet/arcgis_services/img/esri-leaflet.png)
 
 ```html
 <!-- Load Esri Leaflet from CDN -->
 <script src="http://cdn-geoweb.s3.amazonaws.com/esri-leaflet/0.0.1-beta.5/esri-leaflet.js"></script>
 ```
 
-```javascript
-var baseUrl = "http://services.arcgisonline.com/ArcGIS/rest/services/Demographics/
-USA_Tapestry/MapServer";
-```
 Choose a packaged basemap (Streets, Topographic, NationalGeographic, Oceans, Gray, DarkGray, Imagery and ShadedRelief):
 
 ```javascript
@@ -28,8 +25,6 @@ Displaying tiles hosted on ArcGIS Online:
 ```javascript
 L.esri.tiledMapLayer("http://services.arcgisonline.com/ArcGIS/rest/services/USA_Topo_Maps/MapServer", {}).addTo(map);
 ```
-
-
 
 
 Examples
@@ -46,6 +41,16 @@ http://mappingco.github.io/lab/Leaflet/arcgis_services/example_2.html
 * Example 3, add different geometries
 
 http://mappingco.github.io/lab/Leaflet/arcgis_services/example_3.html
+
+* Example 4, dynamicMapLayer
+
+http://mappingco.github.io/lab/Leaflet/arcgis_services/example_4.html
+
+* Example 5, custom popups (Heritage_Trees_Portland layer)
+
+http://mappingco.github.io/lab/Leaflet/arcgis_services/example_5.html
+
+![example_5](http://mappingco.github.io/lab/Leaflet/arcgis_services/img/example_5.png)
 
 Arcgis dynamicMapLayer
 ----------------------
@@ -72,12 +77,13 @@ L.esri.dynamicMapLayer("https://as1.sesync.org/arcgis/rest/services/OA_Vulnerabi
 ```
 
 Some Arcgis Rest services layers:
-----------------------------
+---------------------------------
 
-* http://services.arcgisonline.com/arcgis/rest/services
+* arcgisonline services:
 
-http://services.arcgisonline.com/ArcGIS/rest/services/Demographics/
-USA_Tapestry/MapServer
+http://services.arcgisonline.com/arcgis/rest/services
+
+http://services.arcgisonline.com/ArcGIS/rest/services/Demographics/USA_Tapestry/MapServer
 
 http://services.arcgisonline.com/arcgis/rest/services/World_Street_Map/MapServer
 
