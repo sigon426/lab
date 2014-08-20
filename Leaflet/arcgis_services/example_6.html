@@ -1,0 +1,48 @@
+<!-- original example from:
+  http://zevross.com/blog/2014/04/25/adding-arcgis-map-services-to-your-map-using-leaflet/ -->
+
+<!DOCTYPE html>
+<html> 
+  <head>
+    <title>Esri-Leaflet | Tornadoes</title>
+   <link rel="stylesheet" href="http://cdn.leafletjs.com/leaflet-0.7.2/leaflet.css" />
+   <!-- -Services at: http://viewer.nationalmap.gov/example/services/serviceList.html -->
+   <!-- Details on esri-leaflet at https://github.com/Esri/esri-leaflet -->
+    <!--[if lte IE 8]><link rel="stylesheet" href="/the/path/to/leaflet.ie.css"><![endif]-->
+    <style>
+    html, body {
+    height: 100%;
+    margin: 0;
+  }
+  
+  #map{
+   
+    height:100%;
+  }
+    </style>
+  <script src="http://cdn.leafletjs.com/leaflet-0.7.2/leaflet.js"></script>
+    <script src="lib/esri-leaflet/esri-leaflet.js"></script>
+  </head>
+  <body>
+    <div id="map"></div>
+    <script>
+      var template = "<h3>{NAME}</h3>{ACRES} Acres<br><small>Property ID: {PROPERTYID}<small>"
+ 
+      var map = L.map('map', {
+      scrollWheelZoom: true,
+      inertia: true,
+      inertiaDeceleration: 2000
+      }).setView([37.930029, -96.521934], 4);
+ 
+      L.esri.basemapLayer("Gray").addTo(map);
+ 
+       
+      L.esri.dynamicMapLayer("http://maps1.arcgisonline.com/ArcGIS/rest/services/NOAA_US_Historical_Tornadoes/MapServer/2", {
+        opacity : 1
+      }).addTo(map);
+       
+
+ 
+    </script>
+  </body>
+</html>
