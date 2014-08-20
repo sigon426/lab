@@ -1,9 +1,7 @@
 ArcGIS Server map services
 ==========================
  
-A lot of public data are layers available only through ArcGIS Server map services
-
-Esri-Leaflet is a Javascript library used to make applications using the Leaflet.js library.
+A lot of public data are layers available only through ArcGIS Server map services so you can use Esri-Leaflet, a Javascript library used to make applications using the open source Leaflet.js library.
 
 http://esri.github.io/esri-leaflet/
 
