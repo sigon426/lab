@@ -1,0 +1,4 @@
+
+
+
+http://rpbackgis2.saskatoon.ca/ArcGIS/rest/services/MapService/COS_AdministrativeAreas/MapServer/1/query?where=objectid+%3D+objectid&outfields=*&f=json

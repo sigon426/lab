@@ -1,0 +1,102 @@
+{
+  "serviceDescription" : "This map layer shows tornado touchdown points in the United States, Puerto      Rico, and the U.S. Virgin Islands, from 1950 to 2004.  Statistical data were obtained from the National Weather Service, Storm Prediction Center (SPC).  The SPC data originate from the Severe Thunderstorm Database and the National Oceanic and Atmospheric Administration (NOAA) Storm Data publication.  Tornado points show at a scale of 1:5,000,000 and larger.  Tornado occurrences are colored by decade and sized by tornado strength based on the Fujita Scale.  The national tornado tracks layer shows tornado tracks from 1950 – 2006 at a scale of 1:800,000 and larger.", 
+  "mapName" : "US Historical Tornadoes", 
+  "description" : "This map layer shows tornado touchdown points in the United States, Puerto      Rico, and the U.S. Virgin Islands, from 1950 to 2004.  Statistical data were obtained from the National Weather Service, Storm Prediction Center (SPC).  The SPC data originate from the Severe Thunderstorm Database and the National Oceanic and Atmospheric Administration (NOAA) Storm Data publication.  Tornado points show at a scale of 1:5,000,000 and larger.  Tornado occurrences are colored by decade and sized by tornado strength based on the Fujita Scale.  The national tornado tracks layer shows tornado tracks from 1950 – 2006 at a scale of 1:800,000 and larger.", 
+  "copyrightText" : "National Weather Service, Storm Prediction Center / NOAA", 
+  "layers" : [
+    {
+      "id" : 0, 
+      "name" : "US Historical Tornadoes", 
+      "parentLayerId" : -1, 
+      "defaultVisibility" : true, 
+      "subLayerIds" : [1, 4, 6]
+    }, 
+    {
+      "id" : 1, 
+      "name" : "Large Scale Data", 
+      "parentLayerId" : 0, 
+      "defaultVisibility" : true, 
+      "subLayerIds" : [2, 3]
+    }, 
+    {
+      "id" : 2, 
+      "name" : "HistoricalTornadoes", 
+      "parentLayerId" : 1, 
+      "defaultVisibility" : true, 
+      "subLayerIds" : null
+    }, 
+    {
+      "id" : 3, 
+      "name" : "TornadoTracks", 
+      "parentLayerId" : 1, 
+      "defaultVisibility" : true, 
+      "subLayerIds" : null
+    }, 
+    {
+      "id" : 4, 
+      "name" : "Medium Scale Data", 
+      "parentLayerId" : 0, 
+      "defaultVisibility" : true, 
+      "subLayerIds" : [5]
+    }, 
+    {
+      "id" : 5, 
+      "name" : "HistoricalTornadoes", 
+      "parentLayerId" : 4, 
+      "defaultVisibility" : true, 
+      "subLayerIds" : null
+    }, 
+    {
+      "id" : 6, 
+      "name" : "Small Scale Data", 
+      "parentLayerId" : 0, 
+      "defaultVisibility" : true, 
+      "subLayerIds" : [7]
+    }, 
+    {
+      "id" : 7, 
+      "name" : "HistoricalTornadoes", 
+      "parentLayerId" : 6, 
+      "defaultVisibility" : true, 
+      "subLayerIds" : null
+    }
+  ], 
+  "tables" : [
+    
+  ], 
+  "spatialReference" : {
+    "wkid" : 3857
+  }, 
+  "singleFusedMapCache" : false, 
+  "initialExtent" : {
+    "xmin" : -11477484.4730854, 
+    "ymin" : 3512753.86520525, 
+    "xmax" : -8911058.22497302, 
+    "ymax" : 5712547.79215873, 
+    "spatialReference" : {
+      "wkid" : 3857
+    }
+  }, 
+  "fullExtent" : {
+    "xmin" : -18204076.1936, 
+    "ymin" : 2060971.3916, 
+    "xmax" : -7224635.1223, 
+    "ymax" : 8630417.0492, 
+    "spatialReference" : {
+      "wkid" : 3857
+    }
+  }, 
+  "units" : "esriMeters", 
+  "supportedImageFormatTypes" : "PNG32,PNG24,PNG,JPG,DIB,TIFF,EMF,PS,PDF,GIF,SVG,SVGZ,BMP", 
+  "documentInfo" : {
+    "Title" : "USHistoricalTornadoes", 
+    "Author" : "ESRI", 
+    "Comments" : "", 
+    "Subject" : "", 
+    "Category" : "", 
+    "Keywords" : "tornado, tornado tracks", 
+    "AntialiasingMode" : "Normal", 
+    "TextAntialiasingMode" : "None"
+  }, 
+  "capabilities" : "Map,Query,Data"
+}
