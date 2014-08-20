@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Fistro Infowindow example | CartoDB.js</title>
+    <meta name="viewport" content="initial-scale=1.0, user-scalable=no" />
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8"/>
+    <!-- <link rel="shortcut icon" href="http://cartodb.com/assets/favicon.ico" /> -->
+    <style>
+      html, body, #map {
+        height: 100%;
+        padding: 0;
+        margin: 0;
+      }
+    </style>
+
+    <link rel="stylesheet" href="http://libs.cartodb.com/cartodb.js/v3/themes/css/cartodb.css" />
+  </head>
+  <body>
+    <div id="map"></div>
+
+    <script type="infowindow/html" id="infowindow_template">
+      <span> custom </span>
+      <div class="cartodb-popup">
+        <a href="#close" class="cartodb-popup-close-button close">x</a>
+
+         <div class="cartodb-popup-content-wrapper">
+           <div class="cartodb-popup-content">
+             <img style="width: 100%" src="http://www.eadlf.com/wp-content/uploads/2012/06/chiquito.gif">
+             <!-- content.data contains the field info -->
+             <h4>{{content.data.name}}</h4>
+             <p>Lorem fistrum qué dise usteer llevame al sircoo llevame al sircoo ese hombree pecador. Sexuarl ese que llega está la cosa muy malar va usté muy cargadoo ese hombree. Me cago en tus muelas caballo blanco caballo negroorl de la pradera ese pedazo de. Mamaar no te digo trigo por no llamarte Rodrigor a peich jarl jarl. Mamaar sexuarl está la cosa muy malar de la pradera ahorarr al ataquerl benemeritaar torpedo llevame al sircoo. Papaar papaar de la pradera está la cosa muy malar tiene musho peligro mamaar diodenoo a peich te voy a borrar el cerito.</p>
+           </div>
+         </div>
+         <div class="cartodb-popup-tip-container"></div>
+      </div>
+    </script>
+
+    <script src="http://libs.cartodb.com/cartodb.js/v3/cartodb.js"></script>
+
+    <script>
+      function main() {
+        var map = L.map('map', { 
+          zoomControl: false,
+          center: [50, 20],
+          zoom: 3
+        });
+
+        // add a nice baselayer from Stamen 
+        L.tileLayer('http://{s}.tile.stamen.com/toner/{z}/{x}/{y}.png', {
+          attribution: 'Stamen'
+        }).addTo(map);
+
+        cartodb.createLayer(map, 'http://documentation.cartodb.com/api/v2/viz/2b13c956-e7c1-11e2-806b-5404a6a683d5/viz.json')
+          .addTo(map)
+          .on('done', function(layer) {
+            // get sublayer 0 and set the infowindow template
+            var sublayer = layer.getSubLayer(0);
+            sublayer.infowindow.set({
+              template: $('#infowindow_template').html(),
+              width: 218,
+              maxHeight: 170
+            });
+
+          }).on('error', function() {
+            console.log("some error occurred");
+          });
+      }
+
+      window.onload = main;
+    </script>
+  </body>
+</html>
