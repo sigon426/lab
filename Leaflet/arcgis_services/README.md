@@ -21,7 +21,9 @@ L.esri.basemapLayer('Streets').addTo(map);
 Displaying tiles hosted on ArcGIS Online:
 
 ```javascript
+// add a tile layer from ArcGIS Online or ArcGIS Server
 L.esri.tiledMapLayer("http://services.arcgisonline.com/ArcGIS/rest/services/USA_Topo_Maps/MapServer", {}).addTo(map);
+//L.esri.TiledMapLayer("http://services.arcgisonline.com/ArcGIS/rest/services/Specialty/World_Navigation_Charts/MapServer").addTo(map);
 ```
 
 
@@ -50,15 +52,18 @@ http://mappingco.github.io/lab/Leaflet/arcgis_services/example_5.html
 
 ![example_5](http://mappingco.github.io/lab/Leaflet/arcgis_services/img/example5.png)
 
-* Example 6, featureLayer with esriGeometryPoint and simple query(map with meteors)
+* Example 6, featureLayer with esriGeometryPoint and simple query (map with meteors)
 
 http://mappingco.github.io/lab/Leaflet/arcgis_services/example_6.html
 
+* Example 7, map with the active Fires and perimeter
+
+http://mappingco.github.io/lab/Leaflet/arcgis_services/example_7.html
 
 Arcgis dynamicMapLayer
 ----------------------
 
-Dynamic map layers (Render and visualize Map Services from ArcGIS Online and ArcGIS Server):
+Dynamic map layers (Render and visualize Map Services from ArcGIS Online and ArcGIS Server). A dynamic map service generates images on the fly, no tiles:
 
 ```javascript
   var map = L.map('map').setView([34.025, -116.203], 9);
