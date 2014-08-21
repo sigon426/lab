@@ -50,6 +50,11 @@ http://mappingco.github.io/lab/Leaflet/arcgis_services/example_5.html
 
 ![example_5](http://mappingco.github.io/lab/Leaflet/arcgis_services/img/example5.png)
 
+* Example 6, featureLayer with esriGeometryPoint and simple query(map with meteors)
+
+http://mappingco.github.io/lab/Leaflet/arcgis_services/example_6.html
+
+
 Arcgis dynamicMapLayer
 ----------------------
 
@@ -88,3 +93,25 @@ http://services.arcgisonline.com/arcgis/rest/services/World_Street_Map/MapServer
 * USGS National Map Viewer:
 
 http://viewer.nationalmap.gov/example/services/serviceList.html
+
+* ArcGIS Services Directory
+
+http://maps1.arcgisonline.com/ArcGIS/rest/services
+
+
+* ArcGIS REST Services Directory
+
+http://services.arcgis.com/rOo16HdIMeOBI4Mb/ArcGIS/rest/services
+
+
+
+
+raster layer, Spatial Reference: 3857
+http://maps1.arcgisonline.com/ArcGIS/rest/services/USGS_Forest_Fragmentation/MapServer/0
+
+
+Type: Feature Layer, Geometry Type: esriGeometryPoint, Spatial Reference: 3857
+http://maps1.arcgisonline.com/ArcGIS/rest/services/NWS_Weather_Stations/MapServer/4
+
+Type: Feature Layer, Geometry Type: esriGeometryPoint, Spatial Reference: 102100
+http://services.arcgis.com/rOo16HdIMeOBI4Mb/ArcGIS/rest/services/Meteors/FeatureServer/0
