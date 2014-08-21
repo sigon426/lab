@@ -38,7 +38,7 @@
     <label>
       Year found
       <select id="year">
-        <option value=''>Any</option>
+        <option value='*'>Any</option>
         <option value='2012'>2012</option>
         <option value='2011'>2011</option>
         <option value='2010'>2010</option>
@@ -80,7 +80,15 @@
       var year = document.getElementById('year');
 
       year.addEventListener('change', function(){
-        meteors.setWhere('year='+year.value);
+        if (year.value!='*'){
+          console.log(year.value)
+          meteors.setWhere('year='+year.value);
+
+        }
+        else {
+          meteors.setWhere('year<2013');
+          console.log('todos')
+        }
       });
 
 
