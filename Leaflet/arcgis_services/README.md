@@ -71,6 +71,10 @@ http://mappingco.github.io/lab/Leaflet/arcgis_services/example_7.html
 
 http://mappingco.github.io/lab/Leaflet/arcgis_services/example_8.html
 
+* Example 9, DynamicMapLayer: hurricanes / tornadoes with some query
+
+http://mappingco.github.io/lab/Leaflet/arcgis_services/example_9.html
+
 Arcgis dynamicMapLayer
 ----------------------
 
