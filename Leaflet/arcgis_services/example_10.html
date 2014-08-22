@@ -1,0 +1,75 @@
+<!-- Example that uses the leaflet-heat.js plugin
+
+options:
+
+
+max - maximum point intensity, 1.0 by default
+radius - radius of each "point" of the heatmap, 25 by default
+
+gradient - color gradient config, e.g. {0.4: 'blue', 0.65: 'lime', 1: 'red'}
+
+-->
+<!DOCTYPE html>
+<html> 
+  <head>
+    <title>Meterorites</title>
+    <link rel="stylesheet" href="http://cdn.leafletjs.com/leaflet-0.7.2/leaflet.css" />
+    <!-- -Services at: http://viewer.nationalmap.gov/example/services/serviceList.html -->
+    <!-- Details on esri-leaflet at https://github.com/Esri/esri-leaflet -->
+    <!--[if lte IE 8]><link rel="stylesheet" href="/the/path/to/leaflet.ie.css"><![endif]-->
+    <style>
+      html, body {
+        height: 100%;
+        margin: 0;
+      }
+      
+      #map{
+        height:100%;
+      }
+
+      #query {
+        position: absolute;
+        top: 10px;
+        right: 10px;
+        z-index: 10;
+        background: white;
+        padding: 1em;
+      }
+
+      #query select {
+        font-size: 16px;
+      }
+    </style>
+    <script src="http://cdn.leafletjs.com/leaflet-0.7.2/leaflet.js"></script>
+    <!-- Load Esri Leaflet from CDN -->
+    <script src="http://cdn-geoweb.s3.amazonaws.com/esri-leaflet/0.0.1-beta.5/esri-leaflet.js"></script>
+
+    <!-- Include Leaflet.heat via rawgit.com, do not use in production -->
+    <script src="https://rawgit.com/Leaflet/Leaflet.heat/gh-pages/dist/leaflet-heat.js"></script>
+
+    <script src="lib/esri-leaflet/heatmap-feature-layer.js"></script>
+
+  </head>
+  <body>
+    <div id="map"></div>
+
+    <script>
+ 
+      var map = L.map('map').setView([32, -98.52], 5);
+
+      L.esri.basemapLayer("Gray").addTo(map);
+
+      L.esri.heatmapFeatureLayer('http://services.arcgis.com/rOo16HdIMeOBI4Mb/ArcGIS/rest/services/Meteors/FeatureServer/0/', {
+        radius: 12,// radius of each "point" of the heatmap, 25 by default
+        max: 1,    // maximum point intensity, 1.0 by default
+        blur: 25,  // amount of blur, 15 by default
+        maxZoom: 7 // zoom level where the points reach maximum intensity (as intensity scales with zoom)
+                   // equals maxZoom of the map by default
+        //gradient - color gradient config, e.g. {0.4: 'blue', 0.65: 'lime', 1: 'red'}
+
+      }).addTo(map);
+
+ 
+    </script>
+  </body>
+</html>
