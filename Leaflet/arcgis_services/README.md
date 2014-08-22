@@ -39,41 +39,45 @@ Examples
 
 * Example 1, simple map with the Topographic basemap layer:
 
-http://mappingco.github.io/lab/Leaflet/arcgis_services/example_1.html
+http://mappingco.github.io/lab/Leaflet/arcgis_services/example_01.html
 
 * Example 2, simple map that can switch between all available basemaps packaged with the esri-leaflet.js
 
-http://mappingco.github.io/lab/Leaflet/arcgis_services/example_2.html
+http://mappingco.github.io/lab/Leaflet/arcgis_services/example_02.html
 
 * Example 3, add different geometries
 
-http://mappingco.github.io/lab/Leaflet/arcgis_services/example_3.html
+http://mappingco.github.io/lab/Leaflet/arcgis_services/example_03.html
 
 * Example 4, dynamicMapLayer
 
-http://mappingco.github.io/lab/Leaflet/arcgis_services/example_4.html
+http://mappingco.github.io/lab/Leaflet/arcgis_services/example_04.html
 
 * Example 5, custom popups (Heritage_Trees_Portland layer)
 
-http://mappingco.github.io/lab/Leaflet/arcgis_services/example_5.html
+http://mappingco.github.io/lab/Leaflet/arcgis_services/example_05.html
 
 ![example_5](http://mappingco.github.io/lab/Leaflet/arcgis_services/img/example5.png)
 
 * Example 6, featureLayer with esriGeometryPoint and simple query (map with meteors)
 
-http://mappingco.github.io/lab/Leaflet/arcgis_services/example_6.html
+http://mappingco.github.io/lab/Leaflet/arcgis_services/example_06.html
 
 * Example 7, map with the active Fires and perimeter (USA)
 
-http://mappingco.github.io/lab/Leaflet/arcgis_services/example_7.html
+http://mappingco.github.io/lab/Leaflet/arcgis_services/example_07.html
 
 * Example 8, DynamicMapLayer: hurricanes / tornadoes (real-time data, global)
 
-http://mappingco.github.io/lab/Leaflet/arcgis_services/example_8.html
+http://mappingco.github.io/lab/Leaflet/arcgis_services/example_08.html
 
 * Example 9, DynamicMapLayer: hurricanes / tornadoes with some query
 
-http://mappingco.github.io/lab/Leaflet/arcgis_services/example_9.html
+http://mappingco.github.io/lab/Leaflet/arcgis_services/example_09.html
+
+* Example 10, heatmap with the meterorites map
+
+http://mappingco.github.io/lab/Leaflet/arcgis_services/example_10.html
 
 Arcgis dynamicMapLayer
 ----------------------
