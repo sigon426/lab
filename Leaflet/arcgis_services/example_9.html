@@ -1,0 +1,138 @@
+<!-- 
+two layers
+* active fires:
+http://igems.doi.gov/arcgis/rest/services/igems_haz/MapServer/10 
+
+* wildfire perimeters
+http://igems.doi.gov/arcgis/rest/services/igems_haz/MapServer/11
+-->
+
+<!DOCTYPE html>
+<html> 
+  <head>
+    <title>Hurricane Tracks</title>
+    <link rel="stylesheet" href="http://cdn.leafletjs.com/leaflet-0.7.2/leaflet.css" />
+    <!-- -Services at: http://viewer.nationalmap.gov/example/services/serviceList.html -->
+    <!-- Details on esri-leaflet at https://github.com/Esri/esri-leaflet -->
+    <!--[if lte IE 8]><link rel="stylesheet" href="/the/path/to/leaflet.ie.css"><![endif]-->
+    <style>
+      html, body {
+        height: 100%;
+        margin: 0;
+      }
+      
+      #map{
+        height:100%;
+      }
+
+      #query {
+        position: absolute;
+        top: 10px;
+        right: 10px;
+        z-index: 10;
+        background: white;
+        padding: 1em;
+      }
+
+      #query select {
+        font-size: 16px;
+      }
+    </style>
+    <script src="http://cdn.leafletjs.com/leaflet-0.7.2/leaflet.js"></script>
+    <!-- Load Esri Leaflet from CDN -->
+    <script type="text/javascript" src="http://cdn-geoweb.s3.amazonaws.com/esri-leaflet/0.0.1-beta.5/esri-leaflet.js"></script>
+  </head>
+  <body>
+    <div id="map"></div>
+    <div id="query" class="leaflet-bar">
+      <h3 style="margin: 2px;">Hurricanes</h3>
+      <p>Past Positions and Observed Track</p>
+      <label>
+        Month
+        <select id="month">
+          <option value='*'>Any</option>
+          <option value='JAN'>JAN</option>
+          <option value='FEB'>FEB</option>
+          <option value='MAR'>MAR</option>
+          <option value='APR'>APR</option>
+          <option value='MAY'>MAY</option>
+          <option value='JUN'>JUN</option>
+          <option value='JUL'>JUL</option>
+          <option value='AUG'>AUG</option>
+          <option value='SEP'>SEP</option>
+          <option value='NOV'>NOV</option>
+          <option value='OCT'>OCT</option>
+          <option value='NOV'>NOV</option>
+          <option value='DEC'>DEC</option>
+        </select>
+      </label>
+
+    </div>
+    <script>
+      var map = L.map('map', {
+        scrollWheelZoom: true,
+        inertia: true,
+        inertiaDeceleration: 2000
+      }).setView([30, -40], 2);
+
+      L.esri.basemapLayer("Gray").addTo(map);//spatial reference 3857
+
+      // ArcGIS Server Dynamic Map Service - Hurricane Tracks
+      var stormsLayer = L.esri.dynamicMapLayer("http://tmservices1.esri.com/arcgis/rest/services/LiveFeeds/Hurricane_Recent/MapServer", 
+      { layers:[0,1]/*,
+        //A string representing a query to run against the service before the image is rendered:
+        layerDefs: {
+            0: "YEAR =2014 and MONTH ='JUN'",
+            1: "YEAR =2014 and MONTH ='JUN'"
+          }*/
+       }).addTo(map);
+
+      // create a popup for the layers
+      stormsLayer.bindPopup(function (error, featureCollection) {
+      var storm;
+      // user click on track layer
+      if (featureCollection.features.length === 1){
+        storm= featureCollection.features[0].properties;
+        console.log('1: '+featureCollection.features.length)
+        popupText = "<center><b>" +
+              storm.STORMNAME + "</b><br>" +
+              storm.STORMTYPE + "</center>";
+      }
+      // user click on storm position
+      else {
+        console.log('2: '+featureCollection.features.length)
+        storm= featureCollection.features[1].properties;
+        popupText = "<center><b>" +
+              storm.STORMNAME + "</b><br>" +
+              storm.STORMTYPE + "<br>"  +
+              "Intensity:"+storm.INTENSITY+"<br>"+
+              storm.YEAR+" "+storm.MONTH+" "+ storm.DAY+"<br>"+
+              storm.DTG +
+              "<br>sea level pressure: "+storm.MSLP+"mb"+ 
+              "</center>";
+      }
+
+      if(error || featureCollection.features.length === 0) {
+        return false;
+      } else {
+        return popupText;
+      }
+    });
+
+      // update map/query with the selected month:
+      var month = document.getElementById('month');
+
+      month.addEventListener('change', function(){
+        var selectedMonth = month.value;
+        console.log("YEAR = 2014 and MONTH = "+selectedMonth)
+        if (selectedMonth ==='*'){
+          //stormsLayer.setLayerDefs({0: "YEAR =2014",1: "YEAR =2014"})
+          stormsLayer.setLayerDefs({})
+        }
+        else {
+          stormsLayer.setLayerDefs({0: "YEAR =2014 and MONTH ='"+selectedMonth+"'",1: "YEAR =2014 and MONTH ='"+selectedMonth+"'"})
+        }
+      });
+    </script>
+  </body>
+</html>
