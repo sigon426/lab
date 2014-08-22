@@ -1,5 +1,5 @@
-ArcGIS Server map services
-==========================
+ArcGIS Oline and ArcGIS Server map services
+===========================================
  
 A lot of public data are layers available only through ArcGIS Server map services so you can use Esri-Leaflet, a Javascript library used to make applications using the open source Leaflet.js library.
 
@@ -26,6 +26,13 @@ L.esri.tiledMapLayer("http://services.arcgisonline.com/ArcGIS/rest/services/USA_
 //L.esri.TiledMapLayer("http://services.arcgisonline.com/ArcGIS/rest/services/Specialty/World_Navigation_Charts/MapServer").addTo(map);
 ```
 
+Displaying vector features:
+
+```javascript
+// add a tile layer from ArcGIS Online or ArcGIS Server
+L.esri.tiledMapLayer("http://services.arcgisonline.com/ArcGIS/rest/services/USA_Topo_Maps/MapServer", {}).addTo(map);
+//L.esri.TiledMapLayer("http://services.arcgisonline.com/ArcGIS/rest/services/Specialty/World_Navigation_Charts/MapServer").addTo(map);
+```
 
 Examples
 --------
@@ -56,9 +63,13 @@ http://mappingco.github.io/lab/Leaflet/arcgis_services/example_5.html
 
 http://mappingco.github.io/lab/Leaflet/arcgis_services/example_6.html
 
-* Example 7, map with the active Fires and perimeter
+* Example 7, map with the active Fires and perimeter (USA)
 
 http://mappingco.github.io/lab/Leaflet/arcgis_services/example_7.html
+
+* Example 8, DynamicMapLayer: hurricanes / tornadoes (real-time data, global)
+
+http://mappingco.github.io/lab/Leaflet/arcgis_services/example_8.html
 
 Arcgis dynamicMapLayer
 ----------------------
@@ -108,7 +119,9 @@ http://maps1.arcgisonline.com/ArcGIS/rest/services
 
 http://services.arcgis.com/rOo16HdIMeOBI4Mb/ArcGIS/rest/services
 
+* raster
 
+http://raster.nationalmap.gov/arcgis/rest/services/
 
 
 raster layer, Spatial Reference: 3857
