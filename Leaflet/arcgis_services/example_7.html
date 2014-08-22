@@ -44,19 +44,7 @@ http://igems.doi.gov/arcgis/rest/services/igems_haz/MapServer/11
   <body>
     <div id="map"></div>
     <div id="query" class="leaflet-bar">
-      <label>
-        Year found
-        <select id="year">
-          <option value=''>Any</option>
-          <option value='2012'>2012</option>
-          <option value='2011'>2011</option>
-          <option value='2010'>2010</option>
-          <option value='2009'>2009</option>
-          <option value='2008'>2008</option>
-          <option value='2007'>2007</option>
-        </select>
-      </label>
-      <img src="http://igems.doi.gov/arcgis/rest/services/igems_haz/MapServer/10/images/42b693210fbb7b1812e92fcc18e8e020" alt="fire" height="20" width="20">Active Fire
+       <img src="http://igems.doi.gov/arcgis/rest/services/igems_haz/MapServer/10/images/42b693210fbb7b1812e92fcc18e8e020" alt="fire" height="20" width="20">Active Fire
     </div>
     <script>
       var fireIcon= L.icon({
@@ -130,13 +118,6 @@ http://igems.doi.gov/arcgis/rest/services/igems_haz/MapServer/11
             );  
         }}).addTo(map);
 
-      var year = document.getElementById('year');
-
-      year.addEventListener('change', function(){
-        //firePerimeter.setWhere('date_ > 1402000000000');
-        firePerimeter.setWhere('acres>37');
-        //firePerimeter.setTimeRange(1302000000000, 1402000000000);
-      });
 
 
   
