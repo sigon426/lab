@@ -1,0 +1,143 @@
+<!-- https://github.com/danzel/Leaflet.utfgrid -->
+<!DOCTYPE html>
+<html>
+<head>
+	<title>UTF grid Example</title>
+
+	<script src="lib/jquery-1.11.1.min.js"></script>
+	<script src="http://cdn.leafletjs.com/leaflet-0.7.2/leaflet.js"></script>
+
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+	<script src="lib/leaflet.utfgrid.js"></script>
+	<link rel="stylesheet" href="http://cdn.leafletjs.com/leaflet-0.7.2/leaflet.css" />
+	<style type="text/css">
+		#mapdiv{
+			position:absolute;
+			top: 10px;
+		}
+		#tilediv{
+			position:absolute;
+			top:0px;
+			left: 540px
+
+		}
+		#utfdiv{
+			position:absolute;
+			top: 325px;
+			left: 540px
+		}
+	</style>
+</head>
+<body>
+	<div id="mapdiv">
+		<div id="map" style="width: 512px; height: 512px;"></div>
+		<div id="click"></div>
+		<div id="hover"></div>
+		<div id="hover2"></div>
+	</div>
+	
+	<div id="tilediv">
+		<h3 id="tile">TILE</h3>
+		<div id="tileImage"></div>
+		<div id="tileURL"></div>
+	</div>
+	<div id="utfdiv">
+		<h3 id="utfgrid_tile"></h3>
+		<div id="utfgridJsonURL"></div>
+
+		<div id="utfgrid"></div>
+		<div id="utfgrid2"></div>
+		<div id="utfgrid3"></div>
+		<div id="utfgrid4"></div>
+	</div>
+
+
+
+	<script type="text/javascript">
+		//'https://b.tiles.mapbox.com/v1/mapbox.geography-class/{z}/{x}/{y}.png'
+		var tiles = L.tileLayer('http://{s}.tile.osm.org/{z}/{x}/{y}.png', {
+			maxZoom: 18,
+			attribution: '&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
+		});
+
+		var utfGrid = new L.UtfGrid('http://{s}.tiles.mapbox.com/v3/mapbox.geography-class/{z}/{x}/{y}.grid.json?callback={cb}');
+
+		utfGrid.on('click', function (e) {
+			if (e.data) {
+				document.getElementById('click').innerHTML = 'click: ' + e.data.admin;
+			} else {
+				document.getElementById('click').innerHTML = 'click: nothing';
+			}
+		}); 
+		utfGrid.on('mouseover', function (e) {
+			if (e.data) {
+				document.getElementById('hover').innerHTML = 'hover: ' + e.data.admin;
+				document.getElementById('hover2').innerHTML = 'MousePosition: ' + e.latlng;
+				//get tile
+				var point = map.project(e.latlng),
+					x = Math.floor(point.x / 256),
+					y = Math.floor(point.y / 256),
+					zoom=map.getZoom(),
+					url='http://b.tile.osm.org/'+zoom+'/'+x+'/'+y+'.png';
+
+				// get utfgrid
+				col = Math.floor((point.x - (x * 256)) / 4);//gridX
+		    	row = Math.floor((point.y - (y * 256)) / 4);//gridY
+				//console.log(zoom+'/'+x+'/'+y)
+				var mydata = this._cache[zoom + '_' + x + '_' + y]
+				console.log(mydata)
+				var UTFdecode=mydata.grid[row].charCodeAt(col)
+
+				var idx = this._utfDecode(mydata.grid[row].charCodeAt(col)),
+		    		key = mydata.keys[idx],
+		    		result = mydata.data[key];
+		    	//console.log('idx'+idx)
+		    	//console.log('key'+key)
+		    	//console.log('result'+result)
+				//grid[row].charCodeAt(col)
+
+				//console.log(mydata.grid[row].charCodeAt(col))//yo
+				//console.log(UTFdecode)//yo
+
+				//console.log('y '+row)//yo
+				//console.log('x '+col)//yo
+				document.getElementById('tile').innerHTML = 'Tile: ' + zoom+'/'+x+'/'+y;
+				
+				document.getElementById('tileURL').innerHTML = 'TileURL: http://b.tile.osm.org/'+zoom+'/'+x+'/'+y+'.png'
+				document.getElementById('tileImage').innerHTML = "<img src='"+url+ "' alt='S'>";
+				
+				document.getElementById('utfgridJsonURL').innerHTML = "json URL: https://b.tiles.mapbox.com/v1/mapbox.geography-class/"+zoom+"/"+x+"/"+y+".grid.json";
+				document.getElementById('utfgrid_tile').innerHTML = 'UTFGrid Tile: ' + zoom+'/'+x+'/'+y;
+				document.getElementById('utfgrid').innerHTML =  "row: "+row+", col: "+col;
+				document.getElementById('utfgrid2').innerHTML = "row data: "+mydata.grid[row];
+				document.getElementById('utfgrid3').innerHTML = "key: "+key+"<br>UTFGrid:";
+			
+				
+				$("#utfgrid4").html("");//clean previus json
+
+				var gridArray =mydata.grid
+				var gridArraylength =mydata.grid.length
+				$.each( gridArray, function( i, item ) {
+		        	$( "<p>" ).html( i+':'+item ).appendTo( "#utfgrid4" );
+		      
+		      	});
+				//document.getElementById('utfgrid4').innerHTML = "utfgrid: "+mydata.grid;
+			} else {
+				document.getElementById('hover').innerHTML = 'hover: nothing';
+			}
+			//console.log('mouseover: ' + e.data);
+		});
+		utfGrid.on('mouseout', function (e) {
+			//console.log('mouseout: ' + e.data);
+		});
+
+
+		var map = L.map('map')
+				.setView([0, 0], 1)
+				.addLayer(tiles)
+				.addLayer(utfGrid);
+
+	</script>
+</body>
+</html>
