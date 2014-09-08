@@ -1,22 +1,28 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title>Esri Leaflet Demo</title>
-    <link rel="stylesheet" href="http://cdn.leafletjs.com/leaflet-0.4/leaflet.css">
-    <!--[if lte IE 8]><link rel="stylesheet" href="/the/path/to/leaflet.ie.css"><![endif]-->
-    <style>
-      html, body,  #map {
-        width : 100%;
-        height : 100%;
-      }
-    </style>
-    <script src="lib/jquery-1.11.1.min.js"></script>
-    <script src="http://cdn.leafletjs.com/leaflet-0.4/leaflet.js"></script>
-    <script src="lib/esri-leaflet/esri-leaflet.js"></script>
+    <title>Saskatoon</title>
+    <!-- Load Leaflet from CDN-->
+    <link rel="stylesheet" href="http://cdn.leafletjs.com/leaflet-0.7.3/leaflet.css" />
+    <script src="http://cdn.leafletjs.com/leaflet-0.7.3/leaflet.js"></script>
+    <script src="lib/esri-leaflet/0.0.1-beta.5/esri-leaflet.js"></script>
     <script src="lib/proj4-compressed.js"></script>
     <script src="lib/proj4leaflet.js"></script>
-    <script type="text/javascript" src="lib/jsonConverters.js"></script>
-    <script type="text/javascript" src="data/tornadoes.js"></script>
+    
+    <style>
+      body {margin:0;padding:0;}
+      #map {position: absolute;top:0;bottom:0;right:0;left:0;}
+    </style>
+  </head>
+  <body>
+
+
+
+    
+
+    
+
+
 
 
   </head>
@@ -25,8 +31,9 @@
     <script>
 
     //var crs = L.CRS.proj4js('EPSG:25832', '+proj=utm +zone=32 +ellps=GRS80 +units=m +no_defs', new L.Transformation(0.5 / (Math.PI * L.Projection.Mercator.R_MAJOR), 0.5, -0.5 / (Math.PI * L.Projection.Mercator.R_MINOR), 0.5));
-      var template = "<h3>{NAME}</h3>{ACRES} Acres<br><small>Property ID: {PROPERTYID}<small>"
 
+      // EPSG:2957 --> NAD83(CSRS) / UTM zone 13N
+      // http://spatialreference.org/ref/epsg/2957/
       var crs = new L.Proj.CRS('EPSG:2957',
         "+proj=utm +zone=13 +ellps=GRS80 +units=m +no_defs",
         {
@@ -34,14 +41,26 @@
         }
       );
       //var map = L.map('map', {crs:crs}).setView([38, -10], 8);
-      var map = L.map('map').setView([38, -10], 3);
+      var map = L.map('map').setView([52.12, -106.66], 12);
 
-      L.esri.basemapLayer("Gray").addTo(map);
+      L.esri.basemapLayer("Streets").addTo(map);
+
+      var saskatoonAdmin= L.esri.featureLayer("http://rpbackgis2.saskatoon.ca/ArcGIS/rest/services/MapService/COS_AdministrativeAreas/MapServer/1", {
+         style: function (feature) {
+          return { color: "#70ca49", weight: 2 };
+        },
+        onEachFeature: function (feature, layer) {
+          layer.bindPopup("<b>Nghd_Id: " + feature.properties.Nghd_Id  + "</b><br>" + 
+            feature.properties.Nghd_Name  + "<br>" + 
+            feature.properties.Suburban_Area  + "<br>" +
+            feature.properties.Utility_Bill_Day 
+          );          
+      }}).addTo(map)
       //http://rpbackgis2.saskatoon.ca/ArcGIS/rest/services/MapService/COS_AdministrativeAreas/MapServer/1
       
       //http://rpbackgis2.saskatoon.ca/ArcGIS/rest/services/MapService/COS_AdministrativeAreas/MapServer/1/query?where=objectid+%3D+objectid&outfields=*&f=json
       // Using YQL and JSONP
-      var esriObject = tornados
+
 
       var polySymbol = {
         "fillColor": "#ff7800",
@@ -59,31 +78,9 @@
         }
         layer.bindPopup(popupContent);
       }
-      //esrijason
-      var jsonconverter = esriConverter()
-      var gcFeats = jsonconverter.toGeoJson(esriObject);
-      var geoJsonLayer = L.geoJson(gcFeats,{
-            style: polySymbol,
-            onEachFeature: onEachFeature,
-            pointToLayer: function(feature,latlng){
-              return L.circleMarker(latlng,ptSymbol);
-            }
-          });
-      geoJsonLayer.addTo(map);
-      var bounds = geoJsonLayer.getBounds();
-      map.fitBounds(bounds)
+
       /*
-      L.esri.featureLayer("http://rpbackgis2.saskatoon.ca/ArcGIS/rest/services/MapService/COS_AdministrativeAreas/MapServer/1", {
-         style: function (feature) {
-          return { color: "#70ca49", weight: 2 };
-        },
-        onEachFeature: function (feature, layer) {
-          layer.bindPopup("<b>" + feature.properties.Rotulo + "</b><br>" + 
-            feature.properties.Municipio + "<br>" + 
-            feature.properties.Provincia + "<br>" +
-            feature.properties.Precio95 + " €/litro<br>"
-          );          
-        }}).addTo(map)
+
 */
     </script>
   </body>
