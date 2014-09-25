@@ -40,3 +40,7 @@ http://mappingco.github.io/lab/Leaflet/angular-leaflet-directive/caminoSantiago.
 * Custom Infowindow (CartoDB)
 
 http://mappingco.github.io/lab/cartoDB/custom_infowindow.html
+
+* UTFgrid / tiles
+
+http://mappingco.github.io/lab/Leaflet/UTFgrid.html
