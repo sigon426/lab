@@ -16,7 +16,7 @@
 	<script type="text/javascript">
 
 
-		var map = L.map('map').setView([41.38419, 2.18262], 13);
+		var map = L.map('map').setView([41.38419, 2.18262], 14);
 
 		L.tileLayer('https://{s}.tiles.mapbox.com/v3/{id}/{z}/{x}/{y}.png', {
 			maxZoom: 18,
@@ -27,7 +27,7 @@
 		}).addTo(map);
 		var flashObject='<p>Flash file:</p><object classid="clsid:d27cdb6e-ae6d-11cf-96b8-444553540000" odebase="http://fpdownload.macromedia.com/pub/shockwave/cabs/flash/swflash.cab#version=6,0,0,0" width="300" height="70" id="menu_tooltip" align="middle"><param name="allowScriptAccess" value="sameDomain" />	<param name="movie" value="menu_tooltip.swf" />	<param name="quality" value="high" />	<param name="bgcolor" value="#ffffff" /><embed src="menu_tooltip.swf" quality="high" bgcolor="#ffffff" width="300" height="70" name="menu_tooltip" align="middle" allowScriptAccess="sameDomain" type="application/x-shockwave-flash" pluginspage="http://www.macromedia.com/go/getflashplayer" />	</object>'
 
-		L.circle([41.38419, 2.18262], 300, {
+		L.circle([41.38419, 2.18262], 40, {
 			color: 'red',
 			fillColor: '#f03',
 			fillOpacity: 0.5
