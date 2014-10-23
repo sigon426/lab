@@ -1,0 +1,49 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+	<link rel="stylesheet" href="../lib/leaflet-0.7.2/leaflet.css">
+	<title>leaflet & flash</title>
+</head>
+	<body bgcolor="#ffffff">
+		<!--url's used in the movie-->
+		<!--text used in the movie-->
+
+		<div id="map" style="width: 600px; height: 400px; position: relative;"></div>
+	</body>
+	<script src="../lib/leaflet-0.7.2/leaflet.js"></script>
+	<script type="text/javascript">
+
+
+		var map = L.map('map').setView([41.38419, 2.18262], 13);
+
+		L.tileLayer('https://{s}.tiles.mapbox.com/v3/{id}/{z}/{x}/{y}.png', {
+			maxZoom: 18,
+			attribution: 'Map data &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors, ' +
+				'<a href="http://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, ' +
+				'Imagery © <a href="http://mapbox.com">Mapbox</a>',
+			id: 'examples.map-i875mjb7'
+		}).addTo(map);
+		var flashObject='<p>Flash file:</p><object classid="clsid:d27cdb6e-ae6d-11cf-96b8-444553540000" odebase="http://fpdownload.macromedia.com/pub/shockwave/cabs/flash/swflash.cab#version=6,0,0,0" width="300" height="70" id="menu_tooltip" align="middle"><param name="allowScriptAccess" value="sameDomain" />	<param name="movie" value="menu_tooltip.swf" />	<param name="quality" value="high" />	<param name="bgcolor" value="#ffffff" /><embed src="menu_tooltip.swf" quality="high" bgcolor="#ffffff" width="300" height="70" name="menu_tooltip" align="middle" allowScriptAccess="sameDomain" type="application/x-shockwave-flash" pluginspage="http://www.macromedia.com/go/getflashplayer" />	</object>'
+
+		L.circle([41.38419, 2.18262], 300, {
+			color: 'red',
+			fillColor: '#f03',
+			fillOpacity: 0.5
+		}).addTo(map).bindPopup(flashObject);
+
+
+		var popup = L.popup();
+
+		function onMapClick(e) {
+			popup
+				.setLatLng(e.latlng)
+				.setContent("You clicked the map at " + e.latlng.toString())
+				.openOn(map);
+		}
+
+		map.on('click', onMapClick);
+
+	
+	</script>
+</html>
