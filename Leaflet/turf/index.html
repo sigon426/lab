@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset=utf-8 />
+        <title>gasolineras</title>
+        <link rel="shortcut icon" type="image/png" href="favicon.ico">
+        <meta name='viewport' content='initial-scale=1,maximum-scale=1,user-scalable=no' />
+
+        <link rel="stylesheet" href="http://cdn.leafletjs.com/leaflet-0.7.1/leaflet.css" />
+        <style>
+            body { margin:0; padding:0; }
+            #map { position:absolute; top:0; bottom:0; width:100%; }
+            .fill-gray, .fill-grey {background: #EEE;}
+            .pin-top {top: 0;right: 0;left: 0;position: absolute;}
+            .pad1 {padding: 10px 10px 10px 50px;}
+        </style>
+    </head>
+    <body>
+        <div id='map'></div>
+        <div id='stationsNum' class="number">Number of gas stations: 0<div>
+        <div class="pin-top fill-gray pad1">
+            Gas/petrol station accessible within
+            <input type="number" id="radius" max="10000" min="0" class="clean short small-input" value="500" step="10"> meters
+            of Barcelona-Zaragoza route.
+            <p class="small">A GeoJSON route is buffered with <a target="_blank" href="https://github.com/Turfjs/turf-buffer">turf-buffer</a>
+            and points are found with <a href="https://github.com/Turfjs/turf-within">turf-within</a>.</p>
+            <p id="numStations"><p>
+        </div>
+        <script src="http://cdn.leafletjs.com/leaflet-0.7.1/leaflet.js?2"></script>
+        <script src='https://api.tiles.mapbox.com/mapbox.js/plugins/turf/v1.3.0/turf.min.js'></script>
+        <script src='gasolineras.js'></script>
+        <script src='ruta_bcn_zgz.js'></script>
+
+        <script>
+            var InitialCenter = new L.LatLng(40.366194,-3.655639);
+            var map = L.map('map');
+      
+            //create base maps layers
+            var osmlayer = L.tileLayer('http://{s}.tile.osm.org/{z}/{x}/{y}.png', {
+              maxZoom: 18,
+              attribution: '&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors. Data: <a href="http://geoportalgasolineras.es/">geoportalgasolineras.es</a> '
+            }).addTo(map);
+
+            // add gasolineras and route
+            
+            var gasolinerasStyle = {
+                radius: 5,
+                fillColor: "blue",
+                color: "#000",
+                weight: 1,
+                opacity: 1,
+                fillOpacity: 0.7
+            };
+
+            var gasolineras_fcLayer =L.geoJson(gasolineras, {
+                pointToLayer: function (feature, latlng) {
+                    return L.circleMarker(latlng, gasolinerasStyle);
+                }
+            }).addTo(map);
+
+            var ruta_fcLayer =L.geoJson(ruta)
+            ruta_fcLayer.setStyle({ color: 'hotpink', weight: 3 });
+            map.fitBounds(ruta_fcLayer.getBounds());
+
+            //gasolineras_fcLayer.addTo(map);
+            ruta_fcLayer.addTo(map);
+    
+            function run() {
+                var radius = parseInt(document.getElementById('radius').value);
+                if (isNaN(radius)) radius = 500;
+                
+                // buffer(feature, distance, unit)
+                var buffer = turf.buffer(ruta, radius/1000, 'kilometers');
+                var bufferLayer =L.geoJson(buffer, {
+                    onEachFeature: onEachFeature
+                }).addTo(map);
+                function onEachFeature(feature, layer) {
+                   layer.bindPopup('Barcelona-Zaragoza Route')
+                }
+
+                bufferLayer.setStyle({
+                    stroke: false,
+                    fillColor: 'hotpink',
+                    fillOpacity: 0.2
+                })
+                function getColor(d) {
+                    return d > 1 ? 'red' :
+                           d <= 1.1   ? 'green' :
+                                "#000";
+                }
+
+                function insideStationStyle(feature) {
+                    return {
+                        radius: 8,
+                        fillColor: "red",//getColor(feature.properties.Gasolina95),    
+                        color: "#000",
+                        weight: 1,
+                        opacity: 1,
+                        fillOpacity: 0.8
+                    };
+                }
+
+                var stationsInside = turf.within(gasolineras, buffer);
+                var stationsNumber=0;
+                var gasstationsinside =L.geoJson(stationsInside, {
+                    onEachFeature: function(feature, layer) {
+                        stationsNumber++
+                       layer.bindPopup("<h4>"+feature.properties.Rotulo+"</h4><br><b>Localidad:</b> " + feature.properties.Localidad +
+                    "<br><b>Gasolina95: </b>" + feature.properties.Gasolina95 +
+                    "<br><b>Gasolina98: </b>" + feature.properties.Gasolina98 +
+                    "<br><b>Gasoleo A: </b>" + feature.properties.Gasoleo_A +
+                    "<br><b>Nuevo Gasoleo A: </b>" + feature.properties.NuevoGasoleo_A+
+                    "<br><b>Horario: </b>" + feature.properties.Horario);
+                    },
+                    pointToLayer: function (feature, latlng) {
+                        return L.circleMarker(latlng);
+                    },
+                    style:insideStationStyle
+                }).addTo(map);
+                document.getElementById('numStations').innerHTML = "Number of stations within the distance: "+stationsNumber;
+            }
+
+            run();
+            document.getElementById('radius').onchange = run;
+ 
+        </script>
+    </body>
+</html>
+
