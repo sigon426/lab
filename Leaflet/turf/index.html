@@ -19,11 +19,9 @@
         <div id='map'></div>
         <div id='stationsNum' class="number">Number of gas stations: 0<div>
         <div class="pin-top fill-gray pad1">
-            Gas/petrol station accessible within
+            Gas/petrol station within
             <input type="number" id="radius" max="10000" min="0" class="clean short small-input" value="500" step="10"> meters
             of Barcelona-Zaragoza route.
-            <p class="small">A GeoJSON route is buffered with <a target="_blank" href="https://github.com/Turfjs/turf-buffer">turf-buffer</a>
-            and points are found with <a href="https://github.com/Turfjs/turf-within">turf-within</a>.</p>
             <p id="numStations"><p>
         </div>
         <script src="http://cdn.leafletjs.com/leaflet-0.7.1/leaflet.js?2"></script>
