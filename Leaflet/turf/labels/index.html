@@ -32,7 +32,7 @@
 	</body>
 	<script src="http://cdn.leafletjs.com/leaflet-0.7.1/leaflet.js?2"></script>
     <script src='https://api.tiles.mapbox.com/mapbox.js/plugins/turf/v1.3.0/turf.min.js'></script>
-
+	<script src="leaflet.ajax.min.js"></script>
 	<script src="some_polygons.js"></script>
 	<script>
 
@@ -71,10 +71,10 @@
 
 	</script>
 	<script type="text/javascript">
-	    var map = L.map('map').setView([55.898712, 6.7307100000001], 4);
+	    var map = L.map('map').setView([55.898712, 6.7307100000001], 2);
 
 		//create base maps layers
-		var osmlayer = L.tileLayer('http://{s}.tile.osm.org/{z}/{x}/{y}.png', {
+		/*var osmlayer = L.tileLayer('http://{s}.tile.osm.org/{z}/{x}/{y}.png', {
 		  maxZoom: 18,
 		  attribution: '&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
 		});
@@ -91,7 +91,7 @@
 		};
 
 		L.control.layers(baseLayers).addTo(map);
-		osmlayer.addTo(map);
+		osmlayer.addTo(map);*/
 
 		console.log(polygons)
 		function getColor(d) {
@@ -142,13 +142,13 @@
 	
 			//var convex = turf.convex(points2);
 			//var centerPoint = turf.center(convex);
-			layer.bindPopup(feature.properties.POSTNAVN);
+			layer.bindPopup(feature.properties.name);
 			// add text labels:
 	    	var labelLocation = new L.LatLng(centerPoint.geometry.coordinates[1], centerPoint.geometry.coordinates[0]);
 	    	//L.marker(labelLocation).addTo(map);
 	    	var labelTitle;
 	    	if (isInside1){
-	    		labelTitle = new L.LabelOverlay(labelLocation, feature.properties.POSTNR);
+	    		labelTitle = new L.LabelOverlay(labelLocation, feature.properties.name);
 	    	}
 	    	else {
 	    		labelTitle = new L.LabelOverlay(labelLocation, 'outside');
@@ -163,11 +163,15 @@
 		    });
 		}
 
-		var geojson = L.geoJson(polygons, {
+		/*var geojson = L.geoJson(polygons, {
 		    style: style,
 		    onEachFeature: onEachFeature
-		}).addTo(map);
+		}).addTo(map);*/
 
+		var geojson = new L.GeoJSON.AJAX("./countries.json", {
+		    style: style,
+		    onEachFeature: onEachFeature
+		});
 
 
 		map.fitBounds(geojson.getBounds())
