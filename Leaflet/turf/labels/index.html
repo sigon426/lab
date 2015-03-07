@@ -172,7 +172,7 @@
 		    style: style,
 		    onEachFeature: onEachFeature
 		});
-
+		geojson.addTo(map);
 
 		map.fitBounds(geojson.getBounds())
 		for (var i = 0; i <labels.length; i++) {
