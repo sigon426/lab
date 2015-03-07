@@ -23,6 +23,7 @@
 		        line-height:0px;
 		        margin-top: 9px;
 		        position:absolute;
+  				width: 175px;
 		    }
 
 		</style>
@@ -72,7 +73,7 @@
 
 	</script>
 	<script type="text/javascript">
-	    var map = L.map('map').setView([55.898712, 6.7307100000001], 2);
+	    var map = L.map('map').setView([40.898, 6.73], 2);
 
 		function getColor(d) {
 		    return d > 180 ? '#800026' :
@@ -122,7 +123,7 @@
 	
 			//var convex = turf.convex(points2);
 			//var centerPoint = turf.center(convex);
-			layer.bindPopup(feature.properties.name);
+			//layer.bindPopup(feature.properties.name);
 			// add text labels:
 	    	var labelLocation = new L.LatLng(centerPoint.geometry.coordinates[1], centerPoint.geometry.coordinates[0]);
 	    	//L.marker(labelLocation).addTo(map);
@@ -143,21 +144,20 @@
 		    });
 		}
 
-		var geojson = L.geoJson(polygons2, {
+		/*var geojson = L.geoJson(polygons2, {
 		    style: style,
 		    onEachFeature: onEachFeature
-		}).addTo(map);
+		}).addTo(map);*/
 
-		/*var geojson = new L.GeoJSON.AJAX("./countries.json", {
+		var geojson = new L.GeoJSON.AJAX("./countries.json", {
 		    style: style,
 		    onEachFeature: onEachFeature
 		});
-		geojson.addTo(map);*/
+		geojson.addTo(map);
 
-		map.fitBounds(geojson.getBounds())
-		for (var i = 0; i <labels.length; i++) {
+		/*for (var i = 0; i <labels.length; i++) {
 			map.addLayer(labels[i]);
-		}
+		}*/
 	    // add text labels:
 	    var labelLocation = new L.LatLng(51.329219337279405, 10.454119349999928);
 	    var labelTitle = new L.LabelOverlay(labelLocation, '<b>GERMANY</b>');
@@ -172,19 +172,29 @@
 	    // in Google Chrome, I added this event handler:
 
 	    map.on('movestart', function () {
+			removeLabels();
+	    });
+	    map.on('moveend', function () {
+			var zoomLevel = map.getZoom();
+	    	if (zoomLevel >=4){
+	    		addLabels();
+	    	}
+	    });
+	    
+	    function removeLabels(){
 	    	for (var i = 0; i <labels.length; i++) {
 				map.removeLayer(labels[i]);
 			}
 	        map.removeLayer(labelTitle);
 	        map.removeLayer(labelTitle2);
-	    });
-	    map.on('moveend', function () {
+	    }
+	    function addLabels(){
 	    	for (var i = 0; i <labels.length; i++) {
 				map.addLayer(labels[i]);
 			}
 	        map.addLayer(labelTitle);
 	        map.addLayer(labelTitle2);
-	    });
+	    }
 
 	</script>
   
