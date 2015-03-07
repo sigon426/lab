@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 	<head>
- 		<title>Simple map with layer control</title>
+ 		<title>Labeling with turf</title>
   		<meta charset="utf-8" />
 
 		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
@@ -31,6 +31,7 @@
 	<body>
   		<div id="map"></div>
 	</body>
+	<script src="http://code.jquery.com/jquery-2.1.0.min.js"></script>
 	<script src="http://cdn.leafletjs.com/leaflet-0.7.1/leaflet.js?2"></script>
     <script src='https://api.tiles.mapbox.com/mapbox.js/plugins/turf/v1.3.0/turf.min.js'></script>
 	<script src="leaflet.ajax.min.js"></script>
@@ -73,8 +74,9 @@
 
 	</script>
 	<script type="text/javascript">
-	    var map = L.map('map').setView([40.898, 6.73], 2);
-
+	    var map = L.map('map').setView([40.898, 6.73], 5);
+	    map.options.minZoom = 5;
+		map.options.maxZoom = 6;
 		function getColor(d) {
 		    return d > 180 ? '#800026' :
 		           d > 140  ? '#BD0026' :
@@ -102,9 +104,13 @@
 			//var centerPoint = turf.centroid(feature);
 			var centerPoint = turf.pointOnSurface(feature);
 			//var envelope = turf.envelope(feature);//returns a rectangular Polygon feature that encompasses all vertices.
+			var featureName = feature.properties.name
+			var n = featureName.length;
+			console.log(n)
 			var buffered = turf.buffer(centerPoint, 0.2, 'kilometers')
 
 			L.geoJson(buffered,{style:{fillColor:'red'}}).addTo(map)
+			
 			var points2 = turf.explode(buffered);//return all positions as a FeatureCollection of Point features
 			var isInside1 =  true;
 			points2.features.forEach(function(f) {
@@ -144,16 +150,26 @@
 		    });
 		}
 
-		/*var geojson = L.geoJson(polygons2, {
+		// load it as a js variable
+		/*var geojsonLayer = L.geoJson(polygons2, {
 		    style: style,
 		    onEachFeature: onEachFeature
 		}).addTo(map);*/
 
-		var geojson = new L.GeoJSON.AJAX("./countries.json", {
+		//geojson ajax
+		/*var geojsonLayer = new L.GeoJSON.AJAX("./countries.json", {
 		    style: style,
 		    onEachFeature: onEachFeature
 		});
-		geojson.addTo(map);
+		geojsonLayer.addTo(map);*/
+		//github repo
+		var countriesGeojsonURL ="https://raw.githubusercontent.com/iderioja/base_datos_geografica/master/camino_santiago_interior_trazado.json"
+		var countriesGeojsonURL2 = "https://raw.githubusercontent.com/mappingCo/lab/gh-pages/Leaflet/turf/labels/countries.json"
+		$.getJSON(countriesGeojsonURL, function(response) {
+            console.log("response", response);
+            var geojsonLayer = new L.GeoJSON(response);
+            geojsonLayer.addTo(map);    
+        });
 
 		/*for (var i = 0; i <labels.length; i++) {
 			map.addLayer(labels[i]);
