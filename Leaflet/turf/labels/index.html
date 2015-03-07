@@ -73,40 +73,19 @@
 	<script type="text/javascript">
 	    var map = L.map('map').setView([55.898712, 6.7307100000001], 2);
 
-		//create base maps layers
-		/*var osmlayer = L.tileLayer('http://{s}.tile.osm.org/{z}/{x}/{y}.png', {
-		  maxZoom: 18,
-		  attribution: '&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
-		});
-
-		var Sat = L.tileLayer( 'http://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}', {
-			attribution: 'Map tiles by Esri &mdash; Source: Esri, i-cubed, USDA, USGS, AEX, GeoEye, Getmapping, Aerogrid, IGN, IGP, UPR-EGP, and the GIS User Community.'
-
-		});
-
-
-		var baseLayers = {
-		  "osm": osmlayer,
-		  "Sat":Sat
-		};
-
-		L.control.layers(baseLayers).addTo(map);
-		osmlayer.addTo(map);*/
-
-		console.log(polygons)
 		function getColor(d) {
-		    return d > 3440 ? '#800026' :
-		           d > 3420  ? '#BD0026' :
-		           d > 3400 ? '#E31A1C' :
-		           d > 3050 ? '#FC4E2A' :
-		           d > 3040  ? '#FD8D3C' :
-		           d > 3030   ? '#FEB24C' :
-		           d > 3000   ? '#FED976' :
+		    return d > 180 ? '#800026' :
+		           d > 140  ? '#BD0026' :
+		           d > 100 ? '#E31A1C' :
+		           d > 50 ? '#FC4E2A' :
+		           d > 10  ? '#FD8D3C' :
+		           d > -30   ? '#FEB24C' :
+		           d > -60   ? '#FED976' :
 		                      '#FFEDA0';
 		}
 		function style(feature) {
 		    return {
-		        fillColor: getColor(feature.properties.POSTNR),
+		        fillColor: getColor(feature.geometry.coordinates[0][0[0]]),
 		        weight: 2,
 		        opacity: 1,
 		        color: 'gray',
