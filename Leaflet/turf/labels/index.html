@@ -101,8 +101,8 @@
 
 		function onEachFeature(feature, layer) {
 			//var centerPoint = turf.center(feature);
-			//var centerPoint = turf.centroid(feature);
-			var centerPoint = turf.pointOnSurface(feature);
+			var centerPoint = turf.centroid(feature);
+			//var centerPoint = turf.pointOnSurface(feature);
 			//var envelope = turf.envelope(feature);//returns a rectangular Polygon feature that encompasses all vertices.
 			var featureName = feature.properties.name
 			var n = featureName.length;
@@ -151,29 +151,11 @@
 		}
 
 		// load it as a js variable
-		/*var geojsonLayer = L.geoJson(polygons2, {
+		var geojsonLayer = L.geoJson(polygons2, {
 		    style: style,
 		    onEachFeature: onEachFeature
-		}).addTo(map);*/
+		}).addTo(map);
 
-		//geojson ajax
-		/*var geojsonLayer = new L.GeoJSON.AJAX("./countries.json", {
-		    style: style,
-		    onEachFeature: onEachFeature
-		});
-		geojsonLayer.addTo(map);*/
-		//github repo
-		var countriesGeojsonURL ="https://raw.githubusercontent.com/iderioja/base_datos_geografica/master/camino_santiago_interior_trazado.json"
-		var countriesGeojsonURL2 = "https://raw.githubusercontent.com/mappingCo/lab/gh-pages/Leaflet/turf/labels/countries.json"
-		$.getJSON(countriesGeojsonURL, function(response) {
-            console.log("response", response);
-            var geojsonLayer = new L.GeoJSON(response);
-            geojsonLayer.addTo(map);    
-        });
-
-		/*for (var i = 0; i <labels.length; i++) {
-			map.addLayer(labels[i]);
-		}*/
 	    // add text labels:
 	    var labelLocation = new L.LatLng(51.329219337279405, 10.454119349999928);
 	    var labelTitle = new L.LabelOverlay(labelLocation, '<b>GERMANY</b>');
