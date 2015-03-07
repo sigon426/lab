@@ -34,6 +34,7 @@
     <script src='https://api.tiles.mapbox.com/mapbox.js/plugins/turf/v1.3.0/turf.min.js'></script>
 	<script src="leaflet.ajax.min.js"></script>
 	<script src="some_polygons.js"></script>
+	<script src="countries.js"></script>
 	<script>
 
 	    L.LabelOverlay = L.Class.extend({
@@ -106,7 +107,7 @@
 			var points2 = turf.explode(buffered);//return all positions as a FeatureCollection of Point features
 			var isInside1 =  true;
 			points2.features.forEach(function(f) {
-				console.log(turf.inside(f, feature))
+				//console.log(turf.inside(f, feature))
 				if (!turf.inside(f, feature)){
 					isInside1= false
 				}
@@ -142,16 +143,16 @@
 		    });
 		}
 
-		/*var geojson = L.geoJson(polygons, {
+		var geojson = L.geoJson(polygons2, {
 		    style: style,
 		    onEachFeature: onEachFeature
-		}).addTo(map);*/
+		}).addTo(map);
 
-		var geojson = new L.GeoJSON.AJAX("./countries.json", {
+		/*var geojson = new L.GeoJSON.AJAX("./countries.json", {
 		    style: style,
 		    onEachFeature: onEachFeature
 		});
-		geojson.addTo(map);
+		geojson.addTo(map);*/
 
 		map.fitBounds(geojson.getBounds())
 		for (var i = 0; i <labels.length; i++) {
