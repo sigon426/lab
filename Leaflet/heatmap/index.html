@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <title>price heatmap, Spain's gas stations </title>
+    <style>
+      body, html { margin:0; padding:0; height:100%;}
+      body { font-family:sans-serif; }
+      body * { font-weight:200;}
+      h1 { position:absolute; background:white; padding:10px;}
+      #map { height:100%; }
+      .leaflet-container {
+        background: rgba(0,0,0,.8) !important;
+      }
+      .fill-gray, .fill-grey {background: #EEE;}
+      .pin-top {top: 0;right: 0;left: 0;position: absolute;}
+      .pad1 {padding: 10px 10px 10px 50px;}
+    </style>
+    <link rel="stylesheet" href="http://cdn.leafletjs.com/leaflet-0.7.3/leaflet.css" />
+    <script src="http://code.jquery.com/jquery-2.1.0.min.js"></script>
+    <script src="http://cdn.leafletjs.com/leaflet-0.7.3/leaflet.js"></script>
+    <script src="lib/heatmap.min.js"></script>
+    <script src="lib/leaflet-heatmap.js"></script>
+  </head>
+  <body>
+    <h1>Leaflet Heatmap Layer Example</h1>
+    <div id="map"></div>
+    <div id='stationsNum' class="number">Number of gas stations: 0<div>
+    <div class="pin-top fill-gray pad1">
+        Gas station // gasolina95 price >
+        <input type = "number" id = "price" max = "1.6" min = "0.9" class="clean short small-input" value="1.30" step="0.01"> €/litre
+        <p id="numStations"><p>
+        <p>Price updated on 7 mar 2015</p>
+    </div>
+
+    <script>
+      window.onload = function() {
+        var baseLayer = L.tileLayer(
+          'http://services.arcgisonline.com/arcgis/rest/services/Canvas/World_Dark_Gray_Base/MapServer/tile/{z}/{y}/{x}.png',{
+            attribution: 'Esri, HERE, MapmyIndia, © OpenStreetMap contributors, and the GIS user community',
+            maxZoom: 18
+          }
+        );
+
+        var cfg = {
+          // radius should be small ONLY if scaleRadius is true (or small radius is intended)
+          "radius": 0.1,//The radius each datapoint will have (if not specified on the datapoint itself)
+          "maxOpacity": .8, 
+          // scales the radius based on map zoom
+          "scaleRadius": true, 
+          // if set to false the heatmap uses the global maximum for colorization
+          // if activated: uses the data maximum within the current map boundaries 
+          //   (there will always be a red spot with useLocalExtremas true)
+          "useLocalExtrema": true,
+          // which field name in your data represents the latitude - default "lat"
+          latField: 'lat',
+          // which field name in your data represents the longitude - default "lng"
+          lngField: 'lng',
+          // which field name in your data represents the data value - default "value"
+          valueField: 'PrecioGasolina95Proteccion'
+        }
+        //The blur factor that will be applied to all datapoints. The higher the blur factor is, the smoother the gradients will b
+
+
+        var heatmapLayer = new HeatmapOverlay(cfg);
+        var heatmapData
+        var map = new L.Map('map', {
+          center: new L.LatLng(40.6586, -1.3568),
+          zoom: 6,
+          layers: [baseLayer, heatmapLayer]
+        });
+        var geojsonURL = "http://mappingandco.github.io/geojsonDB/gas_stations_spain/estacionesDeServicio.geojson"
+
+        var gasolinerasStyle1 = {
+                radius: 5,
+                fillColor: "red",
+                color: "#000",
+                weight: 1,
+                opacity: 1,
+                fillOpacity: 0.7
+        };
+        var gasolinerasStyle2 = {
+                radius: 0.1,
+                fillColor: "blue",
+                color: "#000",
+                weight: 1,
+                opacity: 1,
+                fillOpacity: 0.1
+        };
+        $.getJSON(geojsonURL, function(response) {
+
+            var features = response.features
+            heatmapData = {max:1.4, min:0.9, data:[]};
+            for (var i = 0; i < features.length; i++) {
+              //console.log(features[i].properties)
+              var lat = features[i].geometry.coordinates[1];
+              var lng = features[i].geometry.coordinates[0];
+              var pGasolina95 = features[i].properties.PrecioGasolina95Proteccion;
+              if (pGasolina95 != null) 
+                heatmapData.data.push({'lat':lat, 'lng': lng, 'PrecioGasolina95Proteccion': pGasolina95})
+            }
+            run(1.30)
+
+        });
+        function run(min){
+          console.log(min)
+          console.log('**************************************************************************************************')
+          var filteredHeatmapData= {max:1.4, min:0.9, data:[]};
+          var data = heatmapData.data;
+          for (var i = 0; i < heatmapData.data.length; i++) {
+            if (heatmapData.data[i].PrecioGasolina95Proteccion > min) {
+              console.log(heatmapData.data[i].PrecioGasolina95Proteccion)
+              filteredHeatmapData.data.push({'lat':heatmapData.data[i].lat, 'lng': heatmapData.data[i].lng, 'PrecioGasolina95Proteccion': heatmapData.data[i].PrecioGasolina95Proteccion})
+            }
+          }
+          console.log(filteredHeatmapData.data)
+          //map.removeLayer(heatmapLayer)
+
+          heatmapLayer.setData(filteredHeatmapData);
+          document.getElementById('numStations').innerHTML = "Number of stations : "+filteredHeatmapData.data.length;
+
+        }
+        $( "#price" ).change(function() {
+          var newMin = $( "#price" ).val();
+          console.log(newMin)
+          run(newMin)
+        })
+        // make accessible for debugging
+        layer = heatmapLayer;
+      };
+    </script>
+  </body>
+</html>
