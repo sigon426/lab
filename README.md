@@ -44,3 +44,18 @@ http://mappingco.github.io/lab/cartoDB/custom_infowindow.html
 * UTFgrid / tiles
 
 http://mappingco.github.io/lab/Leaflet/UTFgrid.html
+
+* Turf.js
+
+gas stations in the Barcelona-Zaragoza route (buffer)
+
+http://mappingco.github.io/lab/Leaflet/turf/
+
+add labels with turf
+
+http://mappingco.github.io/lab/Leaflet/turf/labels/
+
+* Leaflet heatmap (gas stations in spain)
+
+http://mappingco.github.io/lab/Leaflet/heatmap/
+
