@@ -37,7 +37,7 @@
       window.onload = function() {
         var baseLayer = L.tileLayer(
           'http://services.arcgisonline.com/arcgis/rest/services/Canvas/World_Dark_Gray_Base/MapServer/tile/{z}/{y}/{x}.png',{
-            attribution: 'Esri, HERE, MapmyIndia, © OpenStreetMap contributors, and the GIS user community',
+            attribution: 'Esri, HERE, MapmyIndia, © OpenStreetMap contributors, and the GIS user community. Data: http://geoportalgasolineras.es/',
             maxZoom: 18
           }
         );
@@ -59,8 +59,6 @@
           // which field name in your data represents the data value - default "value"
           valueField: 'PrecioGasolina95Proteccion'
         }
-        //The blur factor that will be applied to all datapoints. The higher the blur factor is, the smoother the gradients will b
-
 
         var heatmapLayer = new HeatmapOverlay(cfg);
         var heatmapData
@@ -69,30 +67,14 @@
           zoom: 6,
           layers: [baseLayer, heatmapLayer]
         });
+
         var geojsonURL = "http://mappingandco.github.io/geojsonDB/gas_stations_spain/estacionesDeServicio.geojson"
 
-        var gasolinerasStyle1 = {
-                radius: 5,
-                fillColor: "red",
-                color: "#000",
-                weight: 1,
-                opacity: 1,
-                fillOpacity: 0.7
-        };
-        var gasolinerasStyle2 = {
-                radius: 0.1,
-                fillColor: "blue",
-                color: "#000",
-                weight: 1,
-                opacity: 1,
-                fillOpacity: 0.1
-        };
         $.getJSON(geojsonURL, function(response) {
 
             var features = response.features
             heatmapData = {max:1.4, min:0.9, data:[]};
             for (var i = 0; i < features.length; i++) {
-              //console.log(features[i].properties)
               var lat = features[i].geometry.coordinates[1];
               var lng = features[i].geometry.coordinates[0];
               var pGasolina95 = features[i].properties.PrecioGasolina95Proteccion;
@@ -103,21 +85,16 @@
 
         });
         function run(min){
-          console.log(min)
-          console.log('**************************************************************************************************')
           var filteredHeatmapData= {max:1.4, min:0.9, data:[]};
           var data = heatmapData.data;
           for (var i = 0; i < heatmapData.data.length; i++) {
             if (heatmapData.data[i].PrecioGasolina95Proteccion > min) {
-              console.log(heatmapData.data[i].PrecioGasolina95Proteccion)
               filteredHeatmapData.data.push({'lat':heatmapData.data[i].lat, 'lng': heatmapData.data[i].lng, 'PrecioGasolina95Proteccion': heatmapData.data[i].PrecioGasolina95Proteccion})
             }
           }
-          console.log(filteredHeatmapData.data)
-          //map.removeLayer(heatmapLayer)
 
           heatmapLayer.setData(filteredHeatmapData);
-          document.getElementById('numStations').innerHTML = "Number of stations : "+filteredHeatmapData.data.length;
+          document.getElementById('numStations').innerHTML = "Number of stations : "+ filteredHeatmapData.data.length;
 
         }
         $( "#price" ).change(function() {
