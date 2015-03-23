@@ -150,18 +150,6 @@
 		    });
 		}
 
-		// load it as a js variable
-		/*var geojsonLayer = L.geoJson(polygons2, {
-		    style: style,
-		    onEachFeature: onEachFeature
-		}).addTo(map);*/
-
-		//geojson ajax
-		/*var geojsonLayer = new L.GeoJSON.AJAX("./countries.json", {
-		    style: style,
-		    onEachFeature: onEachFeature
-		});
-		geojsonLayer.addTo(map);*/
 		//github repo
 		var countriesGeojsonURL = "http://mappingandco.github.io/geojsonDB/word_countries/countries.json"
 		$.getJSON(countriesGeojsonURL, function(response) {
