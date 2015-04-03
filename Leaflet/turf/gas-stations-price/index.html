@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset=utf-8 />
+        <title>gasolineras</title>
+        <meta name='viewport' content='initial-scale=1,maximum-scale=1,user-scalable=no' />
+
+        <link rel="stylesheet" href="http://cdn.leafletjs.com/leaflet-0.7.1/leaflet.css" />
+        <style>
+            body { margin:0; padding:0; }
+            #map { position:absolute; top:0; bottom:0; width:100%; }
+            .fill-gray, .fill-grey {background: #EEE;}
+            .pin-top {top: 0;right: 0;left: 0;position: absolute;}
+            .pad1 {padding: 10px 10px 10px 50px;}
+        </style>
+    </head>
+    <body>
+        <div id='map'></div>
+        <div id='stationsNum' class="number">Number of gas stations: 0<div>
+        <div class="pin-top fill-gray pad1">
+            Gas/petrol station gasolina95 price
+            <input type = "number" id = "radius" max = "2" min = "0" class="clean short small-input" value="1.2" step="0.05"> €/litre
+            <p id="numStations"><p>
+        </div>
+        <script src="http://code.jquery.com/jquery-2.1.0.min.js"></script>
+        <script src="http://cdn.leafletjs.com/leaflet-0.7.1/leaflet.js?2"></script>
+        <script src='https://api.tiles.mapbox.com/mapbox.js/plugins/turf/v1.3.0/turf.min.js'></script>
+
+        <script>
+   
+	        var map = new L.Map('map', {
+          		center: new L.LatLng(40.6586, -1.3568),
+          		zoom: 6
+        	});
+        	var baseLayer = L.tileLayer(
+	          'http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',{
+	            attribution: 'Map data &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors, <a href="http://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, Imagery © <a href="http://cloudmade.com">CloudMade</a>',
+	            maxZoom: 18
+	          }
+	        ).addTo(map);
+            // add gasolineras and route
+            
+            var gasolinerasStyle1 = {
+                radius: 5,
+                fillColor: "red",
+                color: "#000",
+                weight: 1,
+                opacity: 1,
+                fillOpacity: 0.7
+            };
+            var gasolinerasStyle2 = {
+                radius: 4,
+                fillColor: "blue",
+                color: "#000",
+                weight: 1,
+                opacity: 1,
+                fillOpacity: 0.7
+        	};
+        	var geojsonURL = "http://mappingandco.github.io/geojsonDB/gas_stations_spain/estacionesDeServicio.geojson"
+
+            $.getJSON(geojsonURL, function(response) {
+	            var gasolineras_fcLayer =L.geoJson(response, {
+	                pointToLayer: function (feature, latlng) {
+	                    if (feature.properties.PrecioGasolina95Proteccion > 1.3){
+	                    	console.log(feature.properties.PrecioGasolina95Proteccion)
+	                      	return L.circleMarker(latlng, gasolinerasStyle1);
+	                    }
+	                    else {
+	                     	 return L.circleMarker(latlng, gasolinerasStyle2);
+	                    }
+	                }
+	            }).addTo(map);
+	        })
+
+            function run() {
+                var radius = parseInt(document.getElementById('radius').value);
+                if (isNaN(radius)) radius = 1.2;
+                
+                // buffer(feature, distance, unit)
+                var buffer = turf.buffer(ruta, radius/1000, 'kilometers');
+                var bufferLayer =L.geoJson(buffer, {
+                    onEachFeature: onEachFeature
+                }).addTo(map);
+
+   
+                function getColor(d) {
+                    return d > 1 ? 'red' :
+                           d <= 1.1   ? 'green' :
+                                "#000";
+                }
+
+                function insideStationStyle(feature) {
+                    return {
+                        radius: 8,
+                        fillColor: "red",//getColor(feature.properties.Gasolina95),    
+                        color: "#000",
+                        weight: 1,
+                        opacity: 1,
+                        fillOpacity: 0.8
+                    };
+                }
+
+                var stationsInside = turf.within(gasolineras, buffer);
+                var stationsNumber=0;
+                var gasstationsinside =L.geoJson(stationsInside, {
+                    onEachFeature: function(feature, layer) {
+                        stationsNumber++
+                       layer.bindPopup("<h4>"+feature.properties.Rotulo+"</h4><br><b>Localidad:</b> " + feature.properties.Localidad +
+                    "<br><b>Gasolina95: </b>" + feature.properties.Gasolina95 +
+                    "<br><b>Gasolina98: </b>" + feature.properties.Gasolina98 +
+                    "<br><b>Gasoleo A: </b>" + feature.properties.Gasoleo_A +
+                    "<br><b>Nuevo Gasoleo A: </b>" + feature.properties.NuevoGasoleo_A+
+                    "<br><b>Horario: </b>" + feature.properties.Horario);
+                    },
+                    pointToLayer: function (feature, latlng) {
+                        return L.circleMarker(latlng);
+                    },
+                    style:insideStationStyle
+                }).addTo(map);
+                document.getElementById('numStations').innerHTML = "Number of stations within the distance: "+stationsNumber;
+            }
+
+            //run();
+            //document.getElementById('radius').onchange = run;
+ 
+        </script>
+    </body>
+</html>
+
