@@ -109,6 +109,12 @@
 
 			function onEachFeature(feature, layer) {
 				var popupContent = feature.properties.navn;
+				if (feature.properties.fylkesnr < 10){
+					popupContent+= '<br/>This will be printed'
+				}
+				else{
+					popupContent+= '<br/> This will NOT be printed'
+				}
 				layer.bindPopup(popupContent);
 			}
 
