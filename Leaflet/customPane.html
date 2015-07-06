@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+	<head>
+		<title>leaflet custom pane</title>
+		<script type="text/javascript" src="http://code.jquery.com/jquery-1.8.3.min.js"></script>
+		<link rel="stylesheet" href="./leaflet-master/leaflet.css" />
+		<script type="text/javascript" src="./leaflet-master/leaflet.js"></script>
+
+
+		<!--[if lte IE 8]>
+	    	<	link rel="stylesheet" href="http://cdn.leafletjs.com/leaflet-0.4.5/leaflet.ie.css" />
+		<![endif]-->
+		
+
+		<style>
+			body {
+				padding: 0;
+				margin: 0;
+			}
+			html, body, #map {
+				height: 100%;
+			}
+			@media print {
+			  	/* media-specific rules */
+				.leaflet-my-pane{
+				  	display: none;
+				}
+				.leaflet-tile-pane{
+				  	display:none;
+				}
+			}
+		
+	   </style>
+	</head>
+
+	<body>
+
+
+		<div id="map"></div>
+		<script>
+			var map = new L.Map('map').setView([60.23435742267943, 10.78857421875], 6);
+			var basemap = new L.TileLayer('http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+		      	attribution: '&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors',
+		      	maxZoom: 19
+		  	});
+			map.on('zoomend', function() {
+			    console.log(map.getZoom());
+			});
+			map.addLayer(basemap);
+			
+			function getColor(p) {
+			    return p > 1500000 ? '#800026' :
+			           p > 1300000 ? '#BD0026' :
+			           p > 1000000 ? '#E31A1C' :
+			           p > 800000 ? '#FC4E2A' :
+			           p > 500000 ? '#FD8D3C' :
+			           p > 300000  ? '#FEB24C' :
+			           p > 100000  ? '#FED976' :
+			                      '#FFEDA0';
+			}
+			function style(feature) {
+			    return {
+			    	fillColor: getColor(feature.properties.perimeter),	        
+			        weight: 2,
+			        opacity: 1,
+			        color: 'white',
+			        fillOpacity: 0.9
+			    };
+			}
+	
+			map.createPane('myPane');
+
+			// Create custom renderer, add it to custom pane
+			var myRenderer = L.svg({pane: 'myPane'});
+
+			var choropleth;
+			var gray;
+			var fylkeGeojsonURL = "http://mappingandco.github.io/geojsonDB/norway/nor_adm2.geojson"
+
+			// create vector layer that will be added to overlay-pane
+			$.getJSON(fylkeGeojsonURL, function(response) {
+			    choropleth = new L.GeoJSON(response, {
+			    	filter: function(feature, layer) {
+		                return feature.properties.fylkesnr < 10;
+		            },
+			        style: style,
+			        onEachFeature: onEachFeature
+			    });
+			    choropleth.addTo(map);    
+			});
+
+			// Create vector layer that will now end up on custom pane in your renderer
+			$.getJSON(fylkeGeojsonURL, function(response) {
+			    gray = new L.GeoJSON(response, {
+			    	filter: function(feature, layer) {
+		                return feature.properties.fylkesnr >= 10;
+		            },
+			        style: {
+				    	fillColor: 'gray',	        
+				        weight: 2,
+				        opacity: 1,
+				        color: 'gray',
+				        fillOpacity: 0.7
+				    },
+			        onEachFeature: onEachFeature,
+			        renderer: myRenderer
+			    });
+			    gray.addTo(map);    
+			});			
+
+			function onEachFeature(feature, layer) {
+				var popupContent = feature.properties.navn;
+				layer.bindPopup(popupContent);
+			}
+
+
+
+			
+		</script>
+	</body>
+</html>
