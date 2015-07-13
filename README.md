@@ -62,3 +62,7 @@ http://sigon426.github.io/lab/Leaflet/heatmap/
 * Leaflet put vector layers in a custom pane that is not printed
 
 http://sigon426.github.io/lab/Leaflet/customPane.html
+
+* Vector tiles from OSM as basemap layer on leaflet
+
+http://sigon426.github.io/lab/Leaflet/vectorTiles.html
