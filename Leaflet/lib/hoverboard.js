@@ -1,5 +1,4 @@
 //https://github.com/devTristan/hoverboard
-
 !function(e){if("object"==typeof exports&&"undefined"!=typeof module)module.exports=e();else if("function"==typeof define&&define.amd)define([],e);else{var o;"undefined"!=typeof window?o=window:"undefined"!=typeof global?o=global:"undefined"!=typeof self&&(o=self);var f=o;f=f.L||(f.L={}),f=f.tileLayer||(f.tileLayer={}),f.hoverboard=e()}}(function(){var define,module,exports;return (function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof require=="function"&&require;if(!u&&a)return a(o,!0);if(i)return i(o,!0);var f=new Error("Cannot find module '"+o+"'");throw f.code="MODULE_NOT_FOUND",f}var l=n[o]={exports:{}};t[o][0].call(l.exports,function(e){var n=t[o][1][e];return s(n?n:e)},l,l.exports,e,t,n,r)}return n[o].exports}var i=typeof require=="function"&&require;for(var o=0;o<r.length;o++)s(r[o]);return s})({1:[function(require,module,exports){
 var RenderingInterface = require('./renderingInterface');
 
@@ -16,7 +15,7 @@ module.exports = function(url, options){
     return d3.geo.transform({
       point: function(y, x) {
         var point = layer._map.latLngToLayerPoint(new L.LatLng(x, y));
-        this.stream.point(point.x-tileOffset.x, point.y-tileOffset.y);
+        this.stream.point(point.x-offset.x, point.y-offset.y);
       }
     });
   };
@@ -25,7 +24,7 @@ module.exports = function(url, options){
   modes.geojson = {
     extensions: ['geojson', 'json'],
     get: function(url, callback){
-      var xhr = d3.json(url, callback);
+      var xhr = d3.xhr(url).responseType('json').get(callback);
       return xhr.abort.bind(xhr);
     },
     parse: function(data, canvas){
@@ -35,7 +34,7 @@ module.exports = function(url, options){
       };
 
       return {
-        data: {layer: data},
+        data: data,
         projection: projections.WGS84(tileOffset)
       }
     }
@@ -43,7 +42,7 @@ module.exports = function(url, options){
   modes.topojson = {
     extensions: ['topojson'],
     get: function(url, callback){
-      var xhr = d3.json(url, callback);
+      var xhr = d3.xhr(url).responseType('json').get(callback);
       return xhr.abort.bind(xhr);
     },
     parse: function(data, canvas){
@@ -64,7 +63,7 @@ module.exports = function(url, options){
     }
   };
   modes.protobuf = {
-    extensions: ['mvt', 'pbf'],
+    extensions: ['mvt', 'pbf', 'mapbox'],
     get: function(url, callback){
       var xhr = d3.xhr(url).responseType('arraybuffer').get(callback);
       return xhr.abort.bind(xhr);
@@ -78,7 +77,7 @@ module.exports = function(url, options){
         layers[key] = tile.layers[key].toGeoJSON();
       }
 
-      //console.log(layers);
+      // console.log(layers);
 
       return {
         data: layers,
@@ -150,7 +149,7 @@ module.exports = function(url, options){
       if (err) {
         throw err;
       }
-
+      
       var result = mode.parse(xhr.response, canvas);
 
       var path = d3.geo.path()
@@ -251,7 +250,7 @@ RenderingInterface.prototype.strokeBy = function(property, strokes, fallback){
 };
 
 RenderingInterface.prototype._where = function(options){
-  console.log('where', options);
+  // console.log('where', options);
   var field = options.field;
   var value = options.value;
 
@@ -267,7 +266,7 @@ RenderingInterface.prototype._where = function(options){
     } else if (typeof field == 'function') {
       if (options.invert) {
         var oldField = field;
-        console.log('inverting');
+        // console.log('inverting');
         field = function(){
           return !oldField.apply(null, arguments);
         };
@@ -294,7 +293,7 @@ RenderingInterface.prototype.where = function(field, value, invert){
   return this._where({field: field, value: value, invert: invert});
 }
 RenderingInterface.prototype.whereNot = function(field, value){
-  console.log('whereNot', field, value);
+  // console.log('whereNot', field, value);
   return this._where({field: field, value: value, invert: true});
 }
 
