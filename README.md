@@ -65,6 +65,6 @@ http://sigon426.github.io/lab/Leaflet/customPane.html
 
 * Vector tiles as basemap layer on leaflet (OSM, mapbox, mapzent)
 
-** http://sigon426.github.io/lab/Leaflet/vectorTiles.html
-** http://sigon426.github.io/lab/Leaflet/vectorTiles2_mapbox.html
-** http://sigon426.github.io/lab/Leaflet/vectorTiles3_mapzen.html
+  * http://sigon426.github.io/lab/Leaflet/vectorTiles.html
+  * http://sigon426.github.io/lab/Leaflet/vectorTiles2_mapbox.html
+  * http://sigon426.github.io/lab/Leaflet/vectorTiles3_mapzen.html
