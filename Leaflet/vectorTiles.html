@@ -40,13 +40,12 @@ http://bl.ocks.org/NelsonMinar/5624141#TileLayer.d3_geoJSON.js
 
     <script>
 
-        var map = L.map('myMap').setView([60.03, 14.41], 5);
+        var map = L.map('myMap').setView([39.47, -2.94], 6);
 
         // Hat Tip http://bl.ocks.org/NelsonMinar/5624141
         // Add a fake GeoJSON line to coerce Leaflet into creating the <svg> tag that d3_geoJson needs
         new L.geoJson({"type": "LineString","coordinates":[[0,0],[0,0]]}).addTo(map);
-
-        //http://openstreetmap.us/~migurski/vector-datasource/
+        
         new L.TileLayer.d3_geoJSON("http://tile.openstreetmap.us/vectiles-water-areas/{z}/{x}/{y}.json", {
             class: "water",
 
