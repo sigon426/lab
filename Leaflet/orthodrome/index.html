@@ -35,11 +35,13 @@
 		var map = L.map('map');
 		map.setView(InitialCenter, 3);
 
-		var MapQuest = L.tileLayer('https://oatile{s}.mqcdn.com/tiles/1.0.0/sat/{z}/{x}/{y}.jpg', {
-		  attribution: 'Tiles Courtesy of <a href="http://www.mapquest.com/">MapQuest</a> &mdash; Portions Courtesy NASA/JPL-Caltech and U.S. Depart. of Agriculture, Farm Service Agency',
-		  subdomains: '1234',
-		  maxZoom:11
-		}).addTo(map);;
+		 var baseLayer = L.tileLayer(
+            		'https://services.arcgisonline.com/arcgis/rest/services/Canvas/World_Dark_Gray_Base/MapServer/tile/{z}/{y}/{x}.png', {
+            		maxZoom: 11,
+			attribution: 'Tiles Courtesy of argisonline'
+          	}).addTo(map);
+		
+
 	
 		// add a new line to the map, but one with no points - yet
 		var polyline = L.polyline([],{
