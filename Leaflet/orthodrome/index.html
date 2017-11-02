@@ -4,7 +4,7 @@
  		<title>Orthodrome animated flight path</title>
   		<meta charset="utf-8" />
 		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
-  		<link rel="stylesheet" href="http://cdn.leafletjs.com/leaflet-0.7.1/leaflet.css" />
+  		<link rel="stylesheet" href="https://cdn.leafletjs.com/leaflet-0.7.1/leaflet.css" />
   		<style>
 			body {
 			    padding: 0;
@@ -18,7 +18,7 @@
 	<body>
   		<div id="map"></div>
 	</body>
-	<script src="http://cdn.leafletjs.com/leaflet-0.7.1/leaflet.js?2"></script>
+	<script src="https://cdn.leafletjs.com/leaflet-0.7.1/leaflet.js?2"></script>
 	<script src="orthodroma.js"></script>
 	<script src="AnimatedMarker.js"></script>
 
@@ -28,7 +28,7 @@
 		var map = L.map('map');
 		map.setView(InitialCenter, 3);
 
-		var MapQuest = L.tileLayer('http://oatile{s}.mqcdn.com/tiles/1.0.0/sat/{z}/{x}/{y}.jpg', {
+		var MapQuest = L.tileLayer('https://oatile{s}.mqcdn.com/tiles/1.0.0/sat/{z}/{x}/{y}.jpg', {
 		  attribution: 'Tiles Courtesy of <a href="http://www.mapquest.com/">MapQuest</a> &mdash; Portions Courtesy NASA/JPL-Caltech and U.S. Depart. of Agriculture, Farm Service Agency',
 		  subdomains: '1234',
 		  maxZoom:11
